@@ -12,6 +12,11 @@ steem.api.getContent(author, permlink, function(err, content)
 	var converter = new showdown.Converter(),
 	html = converter.makeHtml(content.body);
 
+	var payout = (parseFloat(content.total_payout_value.split(' ')[0]) + parseFloat(content.curator_payout_value.split(' ')[0])).toFixed(2);
+	var comments = content.children;
+	var payoutPayload = '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="15" height="17">' + ' ' + comments;
+
+
 	var date = new Date(content.created);
 	var day = date.getDate();
 	var month;
@@ -51,6 +56,7 @@ steem.api.getContent(author, permlink, function(err, content)
 	document.getElementById("title").innerHTML = title;
 	document.getElementById("meta").innerHTML = meta;
 	document.getElementById("body").innerHTML = html;
+	document.getElementById("payout").innerHTML = payoutPayload;
 });
 
 //linki do nazw userow

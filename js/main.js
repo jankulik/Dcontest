@@ -4,7 +4,7 @@ function loadPosts()
 {
 	numberOfPosts += 7;
 	
-	steem.api.getDiscussionsByBlog({tag: 'neavvy', limit: numberOfPosts}, function(err, posts) 
+	steem.api.getDiscussionsByBlog({tag: 'dcontest', limit: numberOfPosts}, function(err, posts) 
 	{
 		//total_payout_value + curator_payout_value > 7
 		//pending_payout_value < 7
