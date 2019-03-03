@@ -106,6 +106,6 @@ if(logged = false)
 
 if(logged = true)
 {
-	document.getElementById("menu1").innerHTML = 'tech.talks';
-	document.getElementById("menu2").innerHTML = 'Log out'
+	document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@tech.talks"> tech.talks </a>';
+	document.getElementById("menu2").innerHTML = '<a href="https://signup.steemit.com"> Log out </a>';
 }
