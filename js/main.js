@@ -87,5 +87,5 @@ function loadPosts()
 	});
 }
 
-var querystring = location.search;
-console.log(querystring);
+localStorage.setItem("querystring", location.search);
+console.log(localStorage.getItem("querystring"));
