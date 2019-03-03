@@ -3,9 +3,6 @@ var author = querystring.split('/')[0];
 author = author.slice(1, author.length);
 var permlink = querystring.split('/')[1];
 
-console.log(author);
-console.log(permlink);
-
 steem.api.getContent(author, permlink, function(err, content)
 {
 	var title = content.title;

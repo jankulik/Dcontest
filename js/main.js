@@ -1,3 +1,11 @@
+//logowanie steemconnect
+//wyswietlanie komentarzy
+//mozliwosc upvote
+//mozliwosc napisania komentarza
+//slider do przewidywania glosu
+//adsense
+//tabelka z delegacjami
+
 var numberOfPosts = 0;
 
 function loadPosts()
@@ -64,5 +72,20 @@ function loadPosts()
 		}
 
 		document.getElementById("feed").innerHTML = payload;
+
+		steem.api.getDiscussionsByBlog({tag: 'dcontest', limit: numberOfPosts + 1}, function(err, postsBuffor) 
+		{
+			if(postsBuffor.length > posts.length)
+			{
+				document.getElementById("pager").innerHTML = '<li class="next"> <a href="javascript:;" onclick="loadPosts()"> Older Posts &darr; </a> </li>';
+			}
+			else
+			{
+				document.getElementById("pager").innerHTML = ' ';
+			}
+		});
 	});
 }
+
+var querystring = location.search;
+console.log(querystring);
