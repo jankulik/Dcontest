@@ -88,26 +88,24 @@ function loadPosts()
 	});
 }
 
-if(location.search != '')
+if(location.search.indexOf('?') != -1)
 {
-	localStorage.setItem("querytekscik", location.search);
+	localStorage.query = location.search;
 }
 
-console.log(localStorage.getItem("querytekscik"))
-
-if(localStorage.getItem("querytekscik") != '')
+if(localStorage.query != null)
 {
 	logged = true;
-}
-
-if(logged = false)
-{
-	document.getElementById("menu1").innerHTML = '<a href="https://steemconnect.com/oauth2/authorize?client_id=pieniazek&redirect_uri=https://jankulik.github.io&scope=vote,comment"> Log In </a>';
-	document.getElementById("menu2").innerHTML = '<a href="https://signup.steemit.com"> Register </a>';
 }
 
 if(logged = true)
 {
 	document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@tech.talks"> tech.talks </a>';
 	document.getElementById("menu2").innerHTML = '<a href="https://signup.steemit.com"> Log out </a>';
+}
+
+if(logged = false)
+{
+	document.getElementById("menu1").innerHTML = '<a href="https://steemconnect.com/oauth2/authorize?client_id=pieniazek&redirect_uri=https://jankulik.github.io&scope=vote,comment"> Log In </a>';
+	document.getElementById("menu2").innerHTML = '<a href="https://signup.steemit.com"> Register </a>';
 }
