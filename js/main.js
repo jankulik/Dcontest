@@ -93,6 +93,8 @@ if(location.search != '')
 	localStorage.setItem("querytekscik", location.search);
 }
 
+console.log(localStorage.getItem("querytekscik"))
+
 if(localStorage.getItem("querytekscik") != '')
 {
 	logged = true;
