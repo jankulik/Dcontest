@@ -82,10 +82,15 @@ function loadPosts()
 			}
 			else
 			{
-				document.getElementById("pager").innerHTML = ' ';
+				document.getElementById("pager").innerHTML = '';
 			}
 		});
 	});
+}
+
+function logOut()
+{
+	localStorage.removeItem("query");
 }
 
 if(location.search.indexOf('?') != -1)
@@ -101,7 +106,7 @@ if(localStorage.query != null)
 if(logged = true)
 {
 	document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@tech.talks"> tech.talks </a>';
-	document.getElementById("menu2").innerHTML = '<a href="https://signup.steemit.com"> Log out </a>';
+	document.getElementById("menu2").innerHTML = '<a href="https://jankulik.github.io" onclick="logOut()"> Log out </a>';
 }
 
 if(logged = false)
