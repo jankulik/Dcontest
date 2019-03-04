@@ -90,10 +90,10 @@ function loadPosts()
 
 if(location.search != '')
 {
-	localStorage.setItem("querystring", location.search);
+	localStorage.setItem("querytekscik", location.search);
 }
 
-if(localStorage.getItem("querystring") != '')
+if(localStorage.getItem("querytekscik") != '')
 {
 	logged = true;
 }
