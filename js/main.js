@@ -14,11 +14,11 @@ var username;
 if(location.search.indexOf('?') != -1)
 {
 	localStorage.query = location.search.substring(1);
-	decodeQuery();
 }
 
 if(localStorage.query != null)
 {
+	decodeQuery();
 	document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@' + username + '">' + username + '</a>';
 	document.getElementById("menu2").innerHTML = '<a href="https://jankulik.github.io" onclick="logOut()"> Log out </a>';
 }
