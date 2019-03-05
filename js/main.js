@@ -103,14 +103,19 @@ if(localStorage.query != null)
 	logged = true;
 }
 
-if(logged = true)
+if(logged == true)
 {
 	document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@tech.talks"> tech.talks </a>';
 	document.getElementById("menu2").innerHTML = '<a href="https://jankulik.github.io" onclick="logOut()"> Log out </a>';
 }
 
-if(logged = false)
+if(logged == false)
 {
-	document.getElementById("menu1").innerHTML = '<a href="https://steemconnect.com/oauth2/authorize?client_id=pieniazek&redirect_uri=https://jankulik.github.io&scope=vote,comment"> Log In </a>';
+	document.getElementById("menu1").innerHTML = '<a href="https://steemconnect.com/oauth2/authorize?client_id=pieniazek&redirect_uri=file:///C:/Users/John/Desktop/dcontest/index.html&scope=vote,comment"> Log In </a>';
 	document.getElementById("menu2").innerHTML = '<a href="https://signup.steemit.com"> Register </a>';
 }
+
+console.log(localStorage.query);
+console.log(logged);
+
+//?access_token=eyJhbGcjIE&expires_in=604800&username=tech.talks
