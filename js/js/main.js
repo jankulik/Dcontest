@@ -7,7 +7,32 @@
 //tabelka z delegacjami
 
 var numberOfPosts = 0;
-var logged = false;
+var token;
+var expiresIn;
+var username;
+
+if(location.search.indexOf('?') != -1)
+{
+	localStorage.query = location.search.substring(1);
+}
+
+if(localStorage.query != null)
+{
+	decodeQuery();
+	document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@' + username + '">' + username + '</a>';
+	document.getElementById("menu2").innerHTML = '<a href="https://jankulik.github.io" onclick="logOut()"> Log out </a>';
+}
+
+if(localStorage.query == null)
+{
+	document.getElementById("menu1").innerHTML = '<a href="https://steemconnect.com/oauth2/authorize?client_id=pieniazek&redirect_uri=https://jankulik.github.io&scope=vote,comment"> Log In </a>';
+	document.getElementById("menu2").innerHTML = '<a href="https://signup.steemit.com"> Register </a>';
+}
+
+console.log(localStorage.query);
+console.log(username);
+console.log(token);
+console.log(expiresIn);
 
 function loadPosts()
 {
@@ -88,32 +113,26 @@ function loadPosts()
 	});
 }
 
+function decodeQuery()
+{
+    var parameters = localStorage.query.split('&');
+    for (var i = 0; i < parameters.length; i++)
+    {
+        var pair = parameters[i].split('=');
+        
+        switch(pair[0])
+		{
+		    case 'access_token':
+		    	token = pair[1]; break;
+		    case 'expires_in':
+		    	expiresIn = pair[1]; break;
+		    case 'username':
+		    	username = pair[1]; break;
+		}
+    }
+}
+
 function logOut()
 {
 	localStorage.removeItem("query");
-}
-
-console.log(localStorage.query);
-console.log(logged);
-
-if(location.search.indexOf('?') != -1)
-{
-	localStorage.query = location.search;
-}
-
-if(localStorage.query != null)
-{
-	logged = true;
-}
-
-if(logged = true)
-{
-	document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@tech.talks"> tech.talks </a>';
-	document.getElementById("menu2").innerHTML = '<a href="https://jankulik.github.io" onclick="logOut()"> Log out </a>';
-}
-
-if(logged = false)
-{
-	document.getElementById("menu1").innerHTML = '<a href="https://steemconnect.com/oauth2/authorize?client_id=pieniazek&redirect_uri=https://jankulik.github.io&scope=vote,comment"> Log In </a>';
-	document.getElementById("menu2").innerHTML = '<a href="https://signup.steemit.com"> Register </a>';
 }
