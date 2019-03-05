@@ -111,7 +111,7 @@ if(logged == true)
 
 if(logged == false)
 {
-	document.getElementById("menu1").innerHTML = '<a href="https://steemconnect.com/oauth2/authorize?client_id=pieniazek&redirect_uri=file:///C:/Users/John/Desktop/dcontest/index.html&scope=vote,comment"> Log In </a>';
+	document.getElementById("menu1").innerHTML = '<a href="https://steemconnect.com/oauth2/authorize?client_id=pieniazek&redirect_uri=https://jankulik.github.io&scope=vote,comment"> Log In </a>';
 	document.getElementById("menu2").innerHTML = '<a href="https://signup.steemit.com"> Register </a>';
 }
 
