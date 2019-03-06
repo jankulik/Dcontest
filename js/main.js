@@ -29,11 +29,6 @@ if(localStorage.query == null)
 	document.getElementById("menu2").innerHTML = '<a href="https://signup.steemit.com"> Register </a>';
 }
 
-console.log(localStorage.query);
-console.log(username);
-console.log(token);
-console.log(expiresIn);
-
 function loadPosts()
 {
 	numberOfPosts += 7;
@@ -136,3 +131,21 @@ function logOut()
 {
 	localStorage.removeItem("query");
 }
+
+console.log(token);
+console.log(username);
+
+var api = sc2.Initialize({
+  app: 'pieniazek',
+  callbackURL: 'https://jankulik.github.io',
+  scope: ['vote', 'comment']
+});
+api.setAccessToken(token);
+
+api.me(function (err, result) {
+        console.log('/me', err, result);
+});
+
+api.vote('tech.talks', 'crypto.piotr', 'dreams-hopes-and-challenges-ahead-plus-my-steemit-anniversary', 1000, function (err, result) {
+    console.log(err, result);
+});
