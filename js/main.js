@@ -11,6 +11,14 @@ var token;
 var expiresIn;
 var username;
 
+var api = sc2.Initialize({
+  app: 'pieniazek',
+  callbackURL: 'https://jankulik.github.io',
+  scope: ['vote', 'comment']
+});
+
+var link = api.getLoginURL();
+
 if(location.search.indexOf('?') != -1)
 {
 	localStorage.query = location.search.substring(1);
@@ -25,7 +33,7 @@ if(localStorage.query != null)
 
 if(localStorage.query == null)
 {
-	document.getElementById("menu1").innerHTML = '<a href="https://steemconnect.com/oauth2/authorize?client_id=pieniazek&redirect_uri=https://jankulik.github.io&scope=vote,comment"> Log In </a>';
+	document.getElementById("menu1").innerHTML = '<a href=' + link + '> Log In </a>';
 	document.getElementById("menu2").innerHTML = '<a href="https://signup.steemit.com"> Register </a>';
 }
 
@@ -135,17 +143,12 @@ function logOut()
 console.log(token);
 console.log(username);
 
-var api = sc2.Initialize({
-  app: 'pieniazek',
-  callbackURL: 'https://jankulik.github.io',
-  scope: ['vote', 'comment']
-});
 api.setAccessToken(token);
 
 api.me(function (err, result) {
         console.log('/me', err, result);
 });
 
-api.vote('tech.talks', 'crypto.piotr', 'dreams-hopes-and-challenges-ahead-plus-my-steemit-anniversary', 1000, function (err, result) {
+api.vote(username, 'crypto.piotr', 'dreams-hopes-and-challenges-ahead-plus-my-steemit-anniversary', 10000, function (err, result) {
     console.log(err, result);
 });
