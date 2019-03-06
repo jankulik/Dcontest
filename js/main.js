@@ -6,6 +6,8 @@
 //adsense
 //tabelka z delegacjami
 
+import sc2 from 'steemconnect';
+
 var numberOfPosts = 0;
 var token;
 var expiresIn;
