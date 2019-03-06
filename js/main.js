@@ -6,14 +6,12 @@
 //adsense
 //tabelka z delegacjami
 
-import sc2 from 'steemconnect';
-
 var numberOfPosts = 0;
 var token;
 var expiresIn;
 var username;
 
-console.log("naj");
+console.log("1");
 
 var api = sc2.Initialize({
   app: 'pieniazek',
