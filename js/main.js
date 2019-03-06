@@ -11,12 +11,14 @@ var token;
 var expiresIn;
 var username;
 
+console.log("naj");
+
 var api = sc2.Initialize({
   app: 'pieniazek',
   callbackURL: 'https://jankulik.github.io',
-  scope: ['vote', 'comment']
+  accessToken: 'access_token',
+  scope: ['login', 'offline', 'delete_comment', 'custom_json', 'comment_options', 'vote', 'comment', 'claim_reward_balance']
 });
-
 var link = api.getLoginURL();
 
 if(location.search.indexOf('?') != -1)
@@ -149,6 +151,6 @@ api.me(function (err, result) {
         console.log('/me', err, result);
 });
 
-api.vote(username, 'crypto.piotr', 'dreams-hopes-and-challenges-ahead-plus-my-steemit-anniversary', 10000, function (err, result) {
+api.vote(username, 'neavvy', 'our-fear-of-artificial-intelligence-is-it-reasoned', 5000, function (err, result) {
     console.log(err, result);
 });
