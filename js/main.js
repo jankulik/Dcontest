@@ -11,15 +11,13 @@ var token;
 var expiresIn;
 var username;
 
-console.log("1");
-
 var api = sc2.Initialize({
-  app: 'pieniazek',
-  callbackURL: 'https://jankulik.github.io',
-  accessToken: 'access_token',
-  scope: ['login', 'offline', 'delete_comment', 'custom_json', 'comment_options', 'vote', 'comment', 'claim_reward_balance']
+	app: 'pieniazek',
+	callbackURL: 'https://jankulik.github.io',
+	accessToken: 'access_token',
+	scope: ['vote', 'comment']
 });
-var link = api.getLoginURL();
+var authorizationLink = api.getLoginURL();
 
 if(location.search.indexOf('?') != -1)
 {
@@ -35,7 +33,7 @@ if(localStorage.query != null)
 
 if(localStorage.query == null)
 {
-	document.getElementById("menu1").innerHTML = '<a href=' + link + '> Log In </a>';
+	document.getElementById("menu1").innerHTML = '<a href=' + authorizationLink + '> Log In </a>';
 	document.getElementById("menu2").innerHTML = '<a href="https://signup.steemit.com"> Register </a>';
 }
 
@@ -55,6 +53,7 @@ function loadPosts()
 			var title = posts[i].title;
 			var payout = (parseFloat(posts[i].total_payout_value.split(' ')[0]) + parseFloat(posts[i].curator_payout_value.split(' ')[0])).toFixed(2);
 			var comments = posts[i].children;
+			var votes = posts[i].active_votes.length;
 
 			var date = new Date(posts[i].created);
 			var day = date.getDate();
@@ -95,7 +94,7 @@ function loadPosts()
 
 		    var url = 'https://steemit.com/@' + author;
 		    var datePayload = 'Posted by ' + '<a style="text-decoration:none" href=' + url + '>' + '@' + author + '</a>' + ' on ' + month + ' ' + day + ',' + ' ' + year;
-		    var payoutPayload = '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="15" height="17">' + ' ' + comments;
+		    var payoutPayload = '<a href="#" onclick={vote("' + author + '","' + permlink + '");return(false);} style="text-decoration:none"> <img src="img/upvote.png" alt="upvote image" width="20" height="20"> </a>' + votes + '&emsp;' + '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="17" height="19">' + ' ' + comments;
 		    
 		    payload += '<div class="post-preview"> </div>';
 		    payload += '<a href="post.html?' + author + '/' + permlink + '"> <h2 class="post-title">' + title + '</h2> </a> <p class="post-meta"> <span style="text-align:left;">' + datePayload + '</span> <span style="float:right;">' + payoutPayload + '</span> </p>';
@@ -108,11 +107,11 @@ function loadPosts()
 		{
 			if(postsBuffor.length > posts.length)
 			{
-				document.getElementById("pager").innerHTML = '<li class="next"> <a href="javascript:;" onclick="loadPosts()"> Older Posts &darr; </a> </li>';
+				document.getElementById("pager").innerHTML = '<li class="next"> <a href="#" onclick="loadPosts();return false;"> Older Posts &darr; </a> </li>';
 			}
 			else
 			{
-				document.getElementById("pager").innerHTML = '';
+				document.getElementById("pager").innerHTML = null;
 			}
 		});
 	});
@@ -135,6 +134,8 @@ function decodeQuery()
 		    	username = pair[1]; break;
 		}
     }
+
+    api.setAccessToken(token);
 }
 
 function logOut()
@@ -142,15 +143,18 @@ function logOut()
 	localStorage.removeItem("query");
 }
 
-console.log(token);
-console.log(username);
+function vote(author, permlink)
+{
+	if(localStorage.query != null)
+	{
+		api.vote(username, author, permlink, 5000, function (err, result)
+		{
+	    	console.log(err, result);
+		});
+	}
 
-api.setAccessToken(token);
-
-api.me(function (err, result) {
-        console.log('/me', err, result);
-});
-
-api.vote(username, 'neavvy', 'our-fear-of-artificial-intelligence-is-it-reasoned', 5000, function (err, result) {
-    console.log(err, result);
-});
+	else
+	{
+		console.log('You are not logged!');
+	}
+}

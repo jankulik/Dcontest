@@ -11,7 +11,8 @@ steem.api.getContent(author, permlink, function(err, content)
 
 	var payout = (parseFloat(content.total_payout_value.split(' ')[0]) + parseFloat(content.curator_payout_value.split(' ')[0])).toFixed(2);
 	var comments = content.children;
-	var payoutPayload = '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="15" height="17">' + ' ' + comments;
+	var votes = content.active_votes.length;
+	var payoutPayload = '<a href="https://jankulik.github.io" style="text-decoration:none"> <img src="img/upvote.png" alt="upvote image" width="20" height="20"> </a>' + votes + '&emsp;' + '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="17" height="19">' + ' ' + comments;
 
 
 	var date = new Date(content.created);
@@ -54,6 +55,28 @@ steem.api.getContent(author, permlink, function(err, content)
 	document.getElementById("meta").innerHTML = meta;
 	document.getElementById("body").innerHTML = html;
 	document.getElementById("payout").innerHTML = payoutPayload;
+});
+
+steem.api.getContentReplies(author, permlink, function(err, replies)
+{
+	console.log(replies);
+
+	var payload = '';
+
+	for(var i = 0; i < replies.length; i++)
+	{
+		payload += replies[i].author;
+		payload += '\n';
+	}
+
+	document.getElementById("comments").innerHTML = payload;
+});
+
+var names = ['neavvy']
+steem.api.getAccounts(names, function(err, result) 
+{
+	var object = JSON.parse(result[0].json_metadata);
+	console.log(object.profile.profile_image);
 });
 
 //linki do nazw userow
