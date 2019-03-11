@@ -76,7 +76,7 @@ function loadPosts(loadNew, votingIndex)
 				}
 			}
 
-			if(i == votingIndex) image = '<span class="lds-dual-ring"> </span>';
+			if(i == votingIndex) image = '<img src="img/loading.gif" alt="loading image" width="20" height="20">';
 
 			switch(date.getMonth())
 		    {
@@ -167,7 +167,7 @@ function vote(author, permlink)
 
 	    	if(result)
 	    	{
-	    		setTimeout(function(){ loadPosts(0, -1); }, 1000);
+	    		setTimeout(function(){ loadPosts(0, -1); }, 5000);
 	    	}
 		});
 	}
