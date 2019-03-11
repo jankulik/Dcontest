@@ -1,10 +1,13 @@
 //logowanie steemconnect
-//wyswietlanie komentarzy
 //mozliwosc upvote
+
+//upvote liczy sie tylko z naszej stronki
 //mozliwosc napisania komentarza
+//wyswietlanie komentarzy
 //slider do przewidywania glosu
 //adsense
 //tabelka z delegacjami
+//developed by freecrypto neavvy
 
 var numberOfPosts = 0;
 var token;
@@ -37,9 +40,9 @@ if(localStorage.query == null)
 	document.getElementById("menu2").innerHTML = '<a href="https://signup.steemit.com"> Register </a>';
 }
 
-function loadPosts()
+function loadPosts(loadNew)
 {
-	numberOfPosts += 7;
+	if(loadNew) numberOfPosts += 7;
 	
 	steem.api.getDiscussionsByBlog({tag: 'dcontest', limit: numberOfPosts}, function(err, posts) 
 	{
@@ -92,9 +95,11 @@ function loadPosts()
 		    	    month = "December"; break;
 		    }
 
+		    var image = '<img src="img/upvote.png" alt="upvote image" width="20" height="20">';
+
 		    var url = 'https://steemit.com/@' + author;
 		    var datePayload = 'Posted by ' + '<a style="text-decoration:none" href=' + url + '>' + '@' + author + '</a>' + ' on ' + month + ' ' + day + ',' + ' ' + year;
-		    var payoutPayload = '<a href="#" onclick={vote("' + author + '","' + permlink + '");return(false);} style="text-decoration:none"> <img src="img/upvote.png" alt="upvote image" width="20" height="20"> </a>' + votes + '&emsp;' + '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="17" height="19">' + ' ' + comments;
+		    var payoutPayload = '<a href="#" onclick={vote("' + author + '","' + permlink + '");return(false);} style="text-decoration:none">' + image + '</a>' + votes + '&emsp;' + '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="17" height="19">' + ' ' + comments;
 		    
 		    payload += '<div class="post-preview"> </div>';
 		    payload += '<a href="post.html?' + author + '/' + permlink + '"> <h2 class="post-title">' + title + '</h2> </a> <p class="post-meta"> <span style="text-align:left;">' + datePayload + '</span> <span style="float:right;">' + payoutPayload + '</span> </p>';
@@ -107,7 +112,7 @@ function loadPosts()
 		{
 			if(postsBuffor.length > posts.length)
 			{
-				document.getElementById("pager").innerHTML = '<li class="next"> <a href="#" onclick="loadPosts();return false;"> Older Posts &darr; </a> </li>';
+				document.getElementById("pager").innerHTML = '<li class="next"> <a href="#" onclick={loadPosts(1);return(false);}> Older Posts &darr; </a> </li>';
 			}
 			else
 			{
@@ -147,9 +152,11 @@ function vote(author, permlink)
 {
 	if(localStorage.query != null)
 	{
-		api.vote(username, author, permlink, 5000, function (err, result)
+		api.vote(username, author, permlink, 10000, function (err, result)
 		{
 	    	console.log(err, result);
+
+	    	if(result) console.log("UDALO SIE KURWAAAAAA");
 		});
 	}
 
