@@ -76,7 +76,7 @@ function loadPosts(loadNew, votingIndex)
 				}
 			}
 
-			if(i == votingIndex) image = '<div class="lds-dual-ring"></div>';
+			if(i == votingIndex) image = '<span class="lds-dual-ring"> </span>';
 
 			switch(date.getMonth())
 		    {
@@ -165,7 +165,10 @@ function vote(author, permlink)
 		{
 	    	console.log(err, result);
 
-	    	if(result) loadPosts(0, -1);
+	    	if(result)
+	    	{
+	    		setTimeout(function(){ loadPosts(0, -1); }, 1000);
+	    	}
 		});
 	}
 
