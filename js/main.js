@@ -40,7 +40,7 @@ if(localStorage.query == null)
 	document.getElementById("menu2").innerHTML = '<a href="https://signup.steemit.com"> Register </a>';
 }
 
-function loadPosts(loadNew)
+function loadPosts(loadNew, votingIndex)
 {
 	if(loadNew) numberOfPosts += 7;
 	
@@ -66,6 +66,17 @@ function loadPosts(loadNew)
 			var author = posts[i].author;
 			var permlink = posts[i].permlink;
 			var body = posts[i].body;
+
+			var image = '<img src="img/upvote.png" alt="upvote image" width="20" height="20">';
+			for(var j = 0; j < posts[i].active_votes.length; j++)
+			{
+				if(posts[i].active_votes[j].voter == username)
+				{
+					image = '<img src="img/upvoted.png" alt="upvoted image" width="20" height="20">';
+				}
+			}
+
+			if(i == votingIndex) image = '<div class="lds-dual-ring"></div>';
 
 			switch(date.getMonth())
 		    {
@@ -95,11 +106,9 @@ function loadPosts(loadNew)
 		    	    month = "December"; break;
 		    }
 
-		    var image = '<img src="img/upvote.png" alt="upvote image" width="20" height="20">';
-
 		    var url = 'https://steemit.com/@' + author;
 		    var datePayload = 'Posted by ' + '<a style="text-decoration:none" href=' + url + '>' + '@' + author + '</a>' + ' on ' + month + ' ' + day + ',' + ' ' + year;
-		    var payoutPayload = '<a href="#" onclick={vote("' + author + '","' + permlink + '");return(false);} style="text-decoration:none">' + image + '</a>' + votes + '&emsp;' + '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="17" height="19">' + ' ' + comments;
+		    var payoutPayload = '<a href="#" onclick={loadPosts(0,' + i + ');vote("' + author + '","' + permlink + '");return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="17" height="19">' + ' ' + comments;
 		    
 		    payload += '<div class="post-preview"> </div>';
 		    payload += '<a href="post.html?' + author + '/' + permlink + '"> <h2 class="post-title">' + title + '</h2> </a> <p class="post-meta"> <span style="text-align:left;">' + datePayload + '</span> <span style="float:right;">' + payoutPayload + '</span> </p>';
@@ -112,7 +121,7 @@ function loadPosts(loadNew)
 		{
 			if(postsBuffor.length > posts.length)
 			{
-				document.getElementById("pager").innerHTML = '<li class="next"> <a href="#" onclick={loadPosts(1);return(false);}> Older Posts &darr; </a> </li>';
+				document.getElementById("pager").innerHTML = '<li class="next"> <a href="#" onclick={loadPosts(1,-1);return(false);}> Older Posts &darr; </a> </li>';
 			}
 			else
 			{
@@ -156,7 +165,7 @@ function vote(author, permlink)
 		{
 	    	console.log(err, result);
 
-	    	if(result) console.log("UDALO SIE KURWAAAAAA");
+	    	if(result) loadPosts(0, -1);
 		});
 	}
 
