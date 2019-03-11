@@ -165,9 +165,9 @@ function vote(author, permlink)
 		{
 	    	console.log(err, result);
 
-	    	if(result)
+	    	if(result.expired == false)
 	    	{
-	    		setTimeout(function(){ loadPosts(0, -1); }, 5000);
+	    		loadPosts(0, -1);
 	    	}
 		});
 	}
