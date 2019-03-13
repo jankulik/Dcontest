@@ -122,7 +122,7 @@ function loadPosts(loadNew, votingIndex, votedIndex)
 		{
 			if(postsBuffor.length > posts.length)
 			{
-				document.getElementById("pager").innerHTML = '<li class="next"> <a href="#" onclick={loadPosts(true,-1, -1);return(false);}> Older Posts &darr; </a> </li>';
+				document.getElementById("pager").innerHTML = '<li class="next"> <a href="#" onclick={loadPosts(true,-1,-1);return(false);}> Older Posts &darr; </a> </li>';
 			}
 			else
 			{
@@ -165,6 +165,7 @@ function vote(author, permlink, index)
 		api.vote(username, author, permlink, 10000, function (err, result)
 		{
 	    	console.log(err, result);
+	    	console.log(result.result.expired == false)
 
 	    	if(result.result.expired == false)
 	    	{
