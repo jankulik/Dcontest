@@ -1,7 +1,7 @@
 //logowanie steemconnect
 //mozliwosc upvote
 
-//upvote liczy sie tylko z naszej stronki
+//prediction liczy sie tylko z naszej stronki
 //mozliwosc napisania komentarza
 //wyswietlanie komentarzy
 //slider do przewidywania glosu
