@@ -164,6 +164,7 @@ function vote(author, permlink)
 		api.vote(username, author, permlink, 10000, function (err, result)
 		{
 	    	console.log(err, result);
+	    	console.log(result.expired);
 
 	    	if(result.expired == false)
 	    	{
