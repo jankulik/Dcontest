@@ -44,12 +44,13 @@ function loadPost(voting, voted)
 				image = '<img src="img/upvoted.png" alt="upvoted image" width="20" height="20">';
 			}
 		}
+		if (voting == true) image = '<img src="img/loading.gif" alt="upvoted image" width="20" height="20">';
 		if(voted == true) image = '<img src="img/upvoted.png" alt="upvoted image" width="20" height="20">';
 
 		var payout = (parseFloat(content.total_payout_value.split(' ')[0]) + parseFloat(content.curator_payout_value.split(' ')[0])).toFixed(2);
 		var comments = content.children;
 		var votes = content.active_votes.length;
-		var payoutPayload = '<a href="#" onclick={loadPost(true,false);vote();return(false);} style="text-decoration:none">' + image + '</a>' + votes + '&emsp;' + '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="17" height="19">' + ' ' + comments;
+		var payoutPayload = '<a href="#" onclick={loadPost(true,false);vote();return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="17" height="19">' + ' ' + comments;
 
 
 		var date = new Date(content.created);
