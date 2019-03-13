@@ -40,7 +40,7 @@ if(localStorage.query == null)
 	document.getElementById("menu2").innerHTML = '<a href="https://signup.steemit.com"> Register </a>';
 }
 
-function loadPosts(loadNew, votingIndex)
+function loadPosts(loadNew, votingIndex, votingState)
 {
 	if(loadNew) numberOfPosts += 7;
 	
@@ -76,7 +76,8 @@ function loadPosts(loadNew, votingIndex)
 				}
 			}
 
-			if(i == votingIndex) image = '<img src="img/loading.gif" alt="loading image" width="20" height="20">';
+			if(i == votingIndex && votingState == 'voting') image = '<img src="img/loading.gif" alt="loading image" width="20" height="20">';
+			if(i == votingIndex && votingState == 'voted') image = '<img src="img/upvoted.png" alt="upvoted image" width="20" height="20">';
 
 			switch(date.getMonth())
 		    {
@@ -108,7 +109,7 @@ function loadPosts(loadNew, votingIndex)
 
 		    var url = 'https://steemit.com/@' + author;
 		    var datePayload = 'Posted by ' + '<a style="text-decoration:none" href=' + url + '>' + '@' + author + '</a>' + ' on ' + month + ' ' + day + ',' + ' ' + year;
-		    var payoutPayload = '<a href="#" onclick={loadPosts(0,' + i + ');vote("' + author + '","' + permlink + '");return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="17" height="19">' + ' ' + comments;
+		    var payoutPayload = '<a href="#" onclick={loadPosts(false,' + i + '"voting");vote("' + author + '","' + permlink + '",' + i + ');return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="17" height="19">' + ' ' + comments;
 		    
 		    payload += '<div class="post-preview"> </div>';
 		    payload += '<a href="post.html?' + author + '/' + permlink + '"> <h2 class="post-title">' + title + '</h2> </a> <p class="post-meta"> <span style="text-align:left;">' + datePayload + '</span> <span style="float:right;">' + payoutPayload + '</span> </p>';
@@ -121,7 +122,7 @@ function loadPosts(loadNew, votingIndex)
 		{
 			if(postsBuffor.length > posts.length)
 			{
-				document.getElementById("pager").innerHTML = '<li class="next"> <a href="#" onclick={loadPosts(1,-1);return(false);}> Older Posts &darr; </a> </li>';
+				document.getElementById("pager").innerHTML = '<li class="next"> <a href="#" onclick={loadPosts(true,-1);return(false);}> Older Posts &darr; </a> </li>';
 			}
 			else
 			{
@@ -157,7 +158,7 @@ function logOut()
 	localStorage.removeItem("query");
 }
 
-function vote(author, permlink)
+function vote(author, permlink, index)
 {
 	if(localStorage.query != null)
 	{
@@ -167,7 +168,7 @@ function vote(author, permlink)
 
 	    	if(result.result.expired == false)
 	    	{
-	    		loadPosts(0, -1);
+	    		loadPosts(false, i, 'voted');
 	    	}
 		});
 	}
