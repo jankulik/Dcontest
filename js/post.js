@@ -155,7 +155,7 @@ slider.oninput = function()
 function makeGuess()
 {
 	var childPermlink = steem.formatter.commentPermlink(author, permlink);
-	api.comment(author, permlink, username, childPermlink, '', 'test', '', function (err, res)
+	api.comment(author, permlink, username, childPermlink, '', 'test', '{"app":"dcontest"}', function (err, res)
 	{
 		console.log(err, res)
 	});
