@@ -155,35 +155,33 @@ slider.oninput = function()
 function makeGuess()
 {
 	var childPermlink = steem.formatter.commentPermlink(author, permlink);
-	api.comment(author, permlink, username, childPermlink, '', 'test', '{"app":"dcontest"}', function (err, res)
+	api.comment(author, permlink, username, childPermlink, '', 'test', {"app":"dcontest"}, function (err, res)
 	{
 		console.log(err, res)
 	});
 }
 
-/*
+
 steem.api.getContentReplies(author, permlink, function(err, replies)
 {
-	console.log(replies);
-
 	var payload = '';
 
 	for(var i = 0; i < replies.length; i++)
 	{
-		payload += replies[i].author;
+		payload += replies[i].author + '|' + replies[i].body;
 		payload += '\n';
 	}
 
 	document.getElementById("comments").innerHTML = payload;
 });
 
+/*
 var names = ['neavvy']
 steem.api.getAccounts(names, function(err, result) 
 {
 	var object = JSON.parse(result[0].json_metadata);
 	console.log(object.profile.profile_image);
 });
-
 */
 
 //linki do nazw userow
