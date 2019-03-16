@@ -147,15 +147,18 @@ var slider = document.getElementById("myRange");
 var output = document.getElementById("demo");
 output.innerHTML = '$ ' + slider.value/10;
 
+var sliderValue = 0;
+
 slider.oninput = function()
 {
   output.innerHTML = '$ ' + this.value/10;
+  sliderValue = '$ ' + this.value/10;
 }
 
 function makeGuess()
 {
 	var childPermlink = steem.formatter.commentPermlink(author, permlink);
-	api.comment(author, permlink, username, childPermlink, '', 'test', {"app":"dcontest"}, function (err, res)
+	api.comment(author, permlink, username, childPermlink, '', sliderValue, {"app":"dcontest"}, function (err, res)
 	{
 		console.log(err, res)
 	});
