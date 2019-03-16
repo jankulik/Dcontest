@@ -143,6 +143,23 @@ function vote()
 	}
 }
 
+var slider = document.getElementById("myRange");
+var output = document.getElementById("demo");
+output.innerHTML = '$ ' + slider.value/10;
+
+slider.oninput = function()
+{
+  output.innerHTML = '$ ' + this.value/10;
+}
+
+function makeGuess()
+{
+	api.comment(author, permlink, username, '', '', 'test', '', function (err, res)
+	{
+		console.log(err, res)
+	});
+}
+
 /*
 steem.api.getContentReplies(author, permlink, function(err, replies)
 {
