@@ -165,11 +165,18 @@ function makeGuess()
 steem.api.getContentReplies(author, permlink, function(err, replies)
 {
 	var payload = '';
+	console.log(replies);
 
 	for(var i = 0; i < replies.length; i++)
 	{
-		payload += replies[i].author + '|' + replies[i].body;
-		payload += '\n';
+		var metadata = JSON.parse(replies[i].json_metadata);
+		
+		payload += '<b>' + replies[i].author + '</b>' + ' | ' + replies[i].body;
+
+		if(metadata.app == 'dcontest')
+			payload += '<b> This comment was made through  Dcontest website </b>'
+
+		payload += '<br><br>';
 	}
 
 	document.getElementById("comments").innerHTML = payload;
