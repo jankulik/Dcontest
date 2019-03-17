@@ -21,18 +21,9 @@ function decodeQuery()
     {
         var pair = parameters[i].split('=');
         
-        switch(pair[0])
-		{
-		    case 'access_token':
-		    	token = pair[1]; break;
-		    case 'expires_in':
-		    	expiresIn = pair[1]; break;
-		    case 'username':
-		    	username = pair[1]; break;
-		}
+        if(pair[0] == 'username')
+        	username = pair[1];
     }
-
-    api.setAccessToken(token);
 }
 
 function logOut()
