@@ -17,7 +17,7 @@ var expiresIn;
 var username;
 
 var api = sc2.Initialize({
-	app: 'pieniazek',
+	app: 'dcontest',
 	callbackURL: 'https://jankulik.github.io',
 	accessToken: 'access_token',
 	scope: ['vote', 'comment']
