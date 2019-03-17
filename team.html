@@ -22,9 +22,17 @@
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
 
-<body onload="loadPost(false, false)">
+<body>
+
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
         <div class="container-fluid">
@@ -62,44 +70,83 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="post-heading">
-                        <h1 id="title"> </h1>
-                        <span id="meta" class="meta"> </span>
+                    <div class="page-heading">
+                        <h1> Team & Promotion </h1>
+                        <hr class="small">
+                        <span class="subheading"> Promote your content across the Steem Blockchain. </span>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Post Content -->
-    <article>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-
-                    <div id="body"> </div>
-                    <hr>
-
-                    <div> <p class="post-meta"> <span id="payout" style="float:right;"> </span> </p> </div>
-
-                    <div class="slidecontainer">
-                        <input type="range" min="0" max="250" value="125" class="slider" id="myRange">
-                        <span style="float:left;"> Your prediction: <span id="demo"></span></span>
-                        <span class="pager"> <li class="next"> <a href="#" onclick={makeGuess();return(false);}> Make a guess! </a> </li> </span>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </article>
-
-    <hr>
-
+    <!-- Main Content -->
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <!-- <p>
+                    <table>
+                        <tr>
+                            <th> Delegated Steem Power </th>
+                            <th> Promoted Content </th>
+                        </tr>
+                        <tr>
+                            <td> 1 - 100 </td>
+                            <td> 1 promotion every two weeks </td>
+                        </tr>
+                        <tr>
+                            <td> 100 - 200 </td>
+                            <td> 1 promotion every week </td>
+                        </tr>
+                        <tr>
+                            <td> 200 - 500 </td>
+                            <td> 2 promotions every week </td>
+                        </tr>
+                        <tr>
+                            <td> 500 - 1,000 </td>
+                            <td> 4 promotions every week </td>
+                        </tr>
+                        <tr>
+                            <td> 1,000 - 5,000 </td>
+                            <td> 6 promotions every week </td>
+                        </tr>
+                        <tr>
+                            <td> 5,000 - 10,000 </td>
+                            <td> 7 promotions every week </td>
+                        </tr>
+                        <tr>
+                            <td> 10,000 & above </td>
+                            <td> please contact the owner </td>
+                        </tr>
+                    </table>
+                </p> -->
 
-                <div id="comments"> </div>
+                <div class="row">
+                    <div class="column">
+                        <div class="card">
+                            <img src="img/freecrypto.jpg" alt="freecrypto" style="width:100%">
+                            <div class="container">
+                                <h2> @freecrypto </h2>
+                                <p class="title"> CEO &amp; Founder </p>
+                                <p><img src="img/steem-icon.png" alt="steem" width="26" height="26"> <a href="https://steemit.com/@freecrypto" style="text-decoration:none"> freecrypto </a></p>
+                                <p><img src="img/mail-icon.png" alt="mail" width="26" height="26"> arshansayed27@gmail.com </p>
+                                <p><img src="img/discord-icon.png" alt="discord" width="26" height="26"> freeCrypto#9217 </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <div class="card">
+                        <img src="img/neavvy.jpg" alt="neavvy" style="width:100%">
+                            <div class="container">
+                                <h2> Jan Kulik </h2>
+                                <p class="title"> Main Developer </p>
+                                <p><img src="img/steem-icon.png" alt="steem" width="26" height="26"> <a href="https://steemit.com/@neavvy" style="text-decoration:none"> neavvy </a></p>
+                                <p><img src="img/mail-icon.png" alt="mail" width="26" height="26"> neavvy550@gmail.com </p>
+                                <p><img src="img/discord-icon.png" alt="discord" width="26" height="26"> neavvy#4212 </p>
+                            </div>
+                        </div>
+                  </div>
             </div>
         </div>
     </div>
@@ -137,7 +184,7 @@
                             </a>
                         </li>
                     </ul>
-                    <p class="copyright text-muted">Copyright &copy; Dcontest 2019 </p>
+                    <p class="copyright text-muted">Copyright &copy; Dcontest 2019</p>
                 </div>
             </div>
         </div>
@@ -151,18 +198,12 @@
 
     <!-- Contact Form JavaScript -->
     <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
 
     <!-- Theme JavaScript -->
     <script src="js/clean-blog.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
-    <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/steemconnect@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sc2-sdk@latest"></script>
-
-    <script src="js/post.js"></script>
-
+    <script src="js/team.js"></script>
 </body>
 
 </html>
