@@ -1,3 +1,9 @@
+var converter = new showdown.Converter();
+converter.setOption('simplifiedAutoLink', true);
+converter.setOption('tables', true);
+converter.setOption('ghMentions', true);
+converter.setOption('ghMentionsLink', 'https://steemit.com/@{u}');
+
 var querystring = location.search;
 var author = querystring.split('/')[0];
 author = author.slice(1, author.length);
@@ -33,7 +39,6 @@ function loadPost(voting, voted)
 	steem.api.getContent(author, permlink, function(err, content)
 	{
 		var title = content.title;
-		var converter = new showdown.Converter(),
 		html = converter.makeHtml(content.body);
 
 		var image = '<img src="img/upvote.png" alt="upvote image" width="20" height="20">';
@@ -193,7 +198,3 @@ steem.api.getAccounts(names, function(err, result)
 	console.log(object.profile.profile_image);
 });
 */
-
-//linki do nazw userow
-//poprawne wyświetlanie linkow do stron
-//czemu nie wspiera calego markdown (tabelki etc)

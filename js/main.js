@@ -1,13 +1,15 @@
 //logowanie steemconnect
 //mozliwosc upvote
-
 //prediction liczy sie tylko z naszej stronki
-//mozliwosc napisania komentarza
-//wyswietlanie komentarzy
 //slider do przewidywania glosu
-//adsense
 //tabelka z delegacjami
 //developed by freecrypto neavvy
+
+//przyciski z linkami do delegacji
+//domena
+//mozliwosc napisania komentarza
+//wyswietlanie komentarzy
+//adsense
 
 var numberOfPosts = 0;
 var token;
