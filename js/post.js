@@ -179,9 +179,12 @@ function renderComment(comment, profileImage)
 	var reputation = Math.round(((Math.log10(comment.author_reputation) - 9) * 9) + 25);
 	var permlink = comment.permlink;
 	var body = converter.makeHtml(comment.body);
-	var metadata = JSON.parse(comment.json_metadata);
-	var dapp = '';
 
+	var metadata = '';
+	if(comment.json_metadata !== '')
+		metadata = JSON.parse(comment.json_metadata);
+
+	var dapp = '';
 	if(metadata.app == 'dcontest')
 		dapp = '<img src="img/dapp.png" alt="image" style="width:108px;height:20px;">';
 
