@@ -10,7 +10,7 @@ body {
 }
 p {
   line-height: 1.5;
-  margin: 30px 0;
+  margin: 25px 0;
 }
 p a {
   text-decoration: underline;
@@ -496,4 +496,33 @@ tr:nth-child(even) {
 
 img{
     max-width: 100%;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  list-style-type: none;
+}
+
+/* KOD DO KOMENTARZY, TRZEBA GO POPRAWIC */
+.comments {
+    font-size: 18px;
+}
+
+.comment-header {
+  color: #3b3b3b;
+  margin-left: 60px;
+}
+
+.profile-image {
+  border-radius: 50%;
+  float: left;
+  display: block;
+}
+
+.comment-content {
+  margin-top: -21px;
+  margin-left: 60px;
 }

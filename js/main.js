@@ -5,11 +5,12 @@
 //tabelka z delegacjami
 //developed by freecrypto neavvy
 
-//przyciski z linkami do delegacji
 //domena
 //mozliwosc napisania komentarza
 //wyswietlanie komentarzy
 //adsense
+
+//przyciski z linkami do delegacji
 
 var numberOfPosts = 0;
 var token;

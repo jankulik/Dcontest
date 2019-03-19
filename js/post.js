@@ -39,7 +39,7 @@ function loadPost(voting, voted)
 	steem.api.getContent(author, permlink, function(err, content)
 	{
 		var title = content.title;
-		html = converter.makeHtml(content.body);
+		var html = converter.makeHtml(content.body);
 
 		var image = '<img src="img/upvote.png" alt="upvote image" width="20" height="20">';
 		for(var i = 0; i < content.active_votes.length; i++)
@@ -169,32 +169,77 @@ function makeGuess()
 	});
 }
 
+document.getElementById("comments").innerHTML = '<div id="' + permlink + '"> </div>';
+getReplies(author, permlink);
 
-steem.api.getContentReplies(author, permlink, function(err, replies)
+function renderComment(comment, profileImage)
 {
-	var payload = '';
-	console.log(replies);
+	var id = comment.id;
+	var author = comment.author;
+	var reputation = Math.round(((Math.log10(comment.author_reputation) - 9) * 9) + 25);
+	var permlink = comment.permlink;
+	var body = converter.makeHtml(comment.body);
+	var metadata = JSON.parse(comment.json_metadata);
+	var dapp = '';
 
-	for(var i = 0; i < replies.length; i++)
+	if(metadata.app == 'dcontest')
+		dapp = '<img src="img/dapp.png" alt="image" style="width:108px;height:20px;">';
+
+	var commentHtml = `
+			<li style="max-width:600px;">
+				<img src="${profileImage}" class="profile-image" alt="image" style="width:50px;height:50px;">
+
+			 	<div class="comment-header">
+					<a style="font-weight: bold;" href="https://steemit.com/@${author}"> ${author} </a>
+					<span> (${reputation}) &emsp; </span>
+					${dapp}
+				</div> 
+
+				<div class="comment-content">
+					${body}
+				</div>
+				<hr>
+				<ul id=${permlink}> </ul>
+			</li>`;
+
+	return commentHtml;
+}
+
+function getReplies(author, permlink)
+{
+	steem.api.getContentReplies(author, permlink, function(err, result)
 	{
-		var metadata = JSON.parse(replies[i].json_metadata);
-		
-		payload += '<b>' + replies[i].author + '</b>' + ' | ' + replies[i].body;
+		console.log(result);
+		var authors = [];
+		for(var i = 0; i < result.length; i++)
+			authors.push(result[i].author);
+	
+		steem.api.getAccounts(authors, function(err, accounts)
+		{
+			var comments = '';
+			for(var i = 0; i < result.length; i++)
+			{
+				var image;
+				if(JSON.parse(accounts[i].json_metadata).profile !== undefined)
+				{
+					if(JSON.parse(accounts[i].json_metadata).profile.profile_image !== undefined)
+						image = JSON.parse(accounts[i].json_metadata).profile.profile_image;
+				}
+				else
+					image = 'img/profile_image.png';
 
-		if(metadata.app == 'dcontest')
-			payload += '<b> This comment was made through  Dcontest website </b>'
+				comments += renderComment(result[i], image);
+			}
 
-		payload += '<br><br>';
-	}
+			document.getElementById(permlink).innerHTML = comments;
 
-	document.getElementById("comments").innerHTML = payload;
-});
-
-/*
-var names = ['neavvy']
-steem.api.getAccounts(names, function(err, result) 
-{
-	var object = JSON.parse(result[0].json_metadata);
-	console.log(object.profile.profile_image);
-});
-*/
+			for(var i = 0; i < result.length; i++)
+			{
+				if(result[i].children > 0)
+				{
+					getReplies(result[i].author, result[i].permlink);
+				}
+			}
+		});
+	});
+}
