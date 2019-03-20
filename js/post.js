@@ -6,7 +6,7 @@ converter.setOption('ghMentionsLink', 'https://steemit.com/@{u}');
 
 var querystring = location.search;
 var parentAuthor = querystring.split('/')[0];
-parentAuthor = parentAuthor.slice(1, author.length);
+parentAuthor = parentAuthor.slice(1, parentAuthor.length);
 var parentPermlink = querystring.split('/')[1];
 
 var token;
