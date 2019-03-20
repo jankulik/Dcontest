@@ -52,11 +52,15 @@ function loadPost(voting, voted)
 		if (voting == true) image = '<img src="img/loading.gif" alt="upvoted image" width="20" height="20">';
 		if(voted == true) image = '<img src="img/upvoted.png" alt="upvoted image" width="20" height="20">';
 
-		var payout = (parseFloat(content.total_payout_value.split(' ')[0]) + parseFloat(content.curator_payout_value.split(' ')[0])).toFixed(2);
+		var payout;
+		if(content.last_payout[0] == '1')
+			payout = (parseFloat(content.pending_payout_value.split(' ')[0])).toFixed(2);
+		else
+			payout = (parseFloat(content.total_payout_value.split(' ')[0]) + parseFloat(content.curator_payout_value.split(' ')[0])).toFixed(2);
+
 		var comments = content.children;
 		var votes = content.active_votes.length;
 		var payoutPayload = '<a href="#" onclick={loadPost(true,false);vote();return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="17" height="19">' + ' ' + comments;
-
 
 		var date = new Date(content.created);
 		var day = date.getDate();
@@ -148,6 +152,27 @@ function vote()
 	}
 }
 
+function voteComment(comment)
+{
+	if(localStorage.query != null)
+	{
+		api.vote(username, comment.author, comment.permlink, 10000, function (err, result)
+		{
+	    	console.log(err, result);
+
+	    	if(result.result.expired == false)
+	    	{
+	    		commentMeta(comment, false, true);
+	    	}
+		});
+	}
+
+	else
+	{
+		console.log('You are not logged!');
+	}
+}
+
 var slider = document.getElementById("myRange");
 var output = document.getElementById("demo");
 output.innerHTML = '$ ' + slider.value/10;
@@ -201,6 +226,7 @@ function renderComment(comment, profileImage)
 				<div class="comment-content">
 					${body}
 				</div>
+				<div id="${author + '/' + permlink}" class="comment-meta"> </div>
 				<hr>
 				<ul id=${permlink}> </ul>
 			</li>`;
@@ -212,7 +238,6 @@ function getReplies(author, permlink)
 {
 	steem.api.getContentReplies(author, permlink, function(err, result)
 	{
-		console.log(result);
 		var authors = [];
 		for(var i = 0; i < result.length; i++)
 			authors.push(result[i].author);
@@ -223,10 +248,17 @@ function getReplies(author, permlink)
 			for(var i = 0; i < result.length; i++)
 			{
 				var image;
-				if(JSON.parse(accounts[i].json_metadata).profile !== undefined)
+				if(accounts[i].json_metadata !== '')
 				{
-					if(JSON.parse(accounts[i].json_metadata).profile.profile_image !== undefined)
-						image = JSON.parse(accounts[i].json_metadata).profile.profile_image;
+					if(JSON.parse(accounts[i].json_metadata).profile !== undefined)
+					{
+						if(JSON.parse(accounts[i].json_metadata).profile.profile_image !== undefined)
+							image = JSON.parse(accounts[i].json_metadata).profile.profile_image;
+						else
+							image = 'img/profile_image.png';
+					}
+					else
+						image = 'img/profile_image.png';
 				}
 				else
 					image = 'img/profile_image.png';
@@ -238,11 +270,45 @@ function getReplies(author, permlink)
 
 			for(var i = 0; i < result.length; i++)
 			{
+				commentMeta(result[i], false, false);
+			}
+
+			for(var i = 0; i < result.length; i++)
+			{
 				if(result[i].children > 0)
 				{
 					getReplies(result[i].author, result[i].permlink);
 				}
 			}
 		});
+	});
+}
+
+function commentMeta(comment, voting, voted)
+{
+	steem.api.getActiveVotes(comment.author, comment.permlink, function(err, votes)
+	{
+		var image = '<img src="img/upvote.png" alt="upvote image" width="20" height="20">';
+		for(var i = 0; i < votes.length; i++)
+		{
+			if(votes[i].voter == username)
+			{
+				image = '<img src="img/upvoted.png" alt="upvoted image" width="20" height="20">';
+			}
+		}
+		if (voting == true) image = '<img src="img/loading.gif" alt="upvoted image" width="20" height="20">';
+		if(voted == true) image = '<img src="img/upvoted.png" alt="upvoted image" width="20" height="20">';
+
+		var votes = votes.length;
+
+		var payout;
+		if(comment.last_payout[0] == '1')
+			payout = (parseFloat(comment.pending_payout_value.split(' ')[0])).toFixed(2);
+		else
+			payout = (parseFloat(comment.total_payout_value.split(' ')[0]) + parseFloat(comment.curator_payout_value.split(' ')[0])).toFixed(2);
+
+		var payoutPayload = '<a href="#" onclick={commentMeta(' + comment + ',' + true + ',' + false + ');voteComment(' + comment + ');return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout;
+
+		document.getElementById(comment.author + '/' + comment.permlink).innerHTML = payoutPayload;
 	});
 }

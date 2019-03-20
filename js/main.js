@@ -4,10 +4,12 @@
 //slider do przewidywania glosu
 //tabelka z delegacjami
 //developed by freecrypto neavvy
+//wyswietlanie komentarzy
+//zarobki postow mlodszych niz tydzien
 
 //domena
 //mozliwosc napisania komentarza
-//wyswietlanie komentarzy
+//mozliwosc upvote komentarza
 //adsense
 
 //przyciski z linkami do delegacji
@@ -26,9 +28,7 @@ var api = sc2.Initialize({
 var authorizationLink = api.getLoginURL();
 
 if(location.search.indexOf('?') != -1)
-{
 	localStorage.query = location.search.substring(1);
-}
 
 if(localStorage.query != null)
 {
@@ -47,17 +47,15 @@ function loadPosts(loadNew, votingIndex, votedIndex)
 {
 	if(loadNew) numberOfPosts += 7;
 	
-	steem.api.getDiscussionsByBlog({tag: 'dcontest', limit: numberOfPosts}, function(err, posts) 
+	steem.api.getDiscussionsByBlog({tag: 'neavvy', limit: numberOfPosts}, function(err, posts) 
 	{
-		//total_payout_value + curator_payout_value > 7
-		//pending_payout_value < 7
-
 		var payload = '';
 
 		for(var i = 0; i < posts.length; i++)
 		{
+			console.log(posts[i]);
+
 			var title = posts[i].title;
-			var payout = (parseFloat(posts[i].total_payout_value.split(' ')[0]) + parseFloat(posts[i].curator_payout_value.split(' ')[0])).toFixed(2);
 			var comments = posts[i].children;
 			var votes = posts[i].active_votes.length;
 
@@ -69,6 +67,12 @@ function loadPosts(loadNew, votingIndex, votedIndex)
 			var author = posts[i].author;
 			var permlink = posts[i].permlink;
 			var body = posts[i].body;
+
+			var payout;
+			if(posts[i].last_payout[0] == '1')
+				payout = (parseFloat(posts[i].pending_payout_value.split(' ')[0])).toFixed(2);
+			else
+				payout = (parseFloat(posts[i].total_payout_value.split(' ')[0]) + parseFloat(posts[i].curator_payout_value.split(' ')[0])).toFixed(2);
 
 			var image = '<img src="img/upvote.png" alt="upvote image" width="20" height="20">';
 			for(var j = 0; j < posts[i].active_votes.length; j++)
