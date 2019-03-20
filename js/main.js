@@ -6,11 +6,12 @@
 //developed by freecrypto neavvy
 //wyswietlanie komentarzy
 //zarobki postow mlodszych niz tydzien
+//mozliwosc upvote komentarza
 
 //domena
 //mozliwosc napisania komentarza
-//mozliwosc upvote komentarza
 //adsense
+//osobny blog do hostowania tresci
 
 //przyciski z linkami do delegacji
 
