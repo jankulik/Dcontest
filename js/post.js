@@ -307,7 +307,7 @@ function commentMeta(author, permlink, last_payout, pending_payout_value, total_
 		else
 			payout = (parseFloat(total_payout_value.split(' ')[0]) + parseFloat(curator_payout_value.split(' ')[0])).toFixed(2);
 
-		var payoutPayload = '<a href="#" onclick={commentMeta("' + author + '","' + permlink + '","' + last_payout + '","' + pending_payout_value + '","' + total_payout_value + '","' + curator_payout_value + '",true,false);voteComment("' + author + '","' + permlink + '"");return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout;
+		var payoutPayload = '<a href="#" onclick={commentMeta("' + author + '","' + permlink + '","' + last_payout + '","' + parseFloat(pending_payout_value.split(' ')[0]) + '","' + parseFloat(total_payout_value.split(' ')[0]) + '","' + parseFloat(curator_payout_value.split(' ')[0]) + '",true,false);voteComment("' + author + '","' + permlink + '"");return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout;
 
 		document.getElementById(author + '/' + permlink).innerHTML = payoutPayload;
 	});
