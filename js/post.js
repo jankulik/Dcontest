@@ -307,7 +307,7 @@ function commentMeta(comment, voting, voted)
 		else
 			payout = (parseFloat(comment.total_payout_value.split(' ')[0]) + parseFloat(comment.curator_payout_value.split(' ')[0])).toFixed(2);
 
-		var payoutPayload = '<a href="#" onclick={commentMeta(' + comment + ',' + true + ',' + false + ');voteComment(' + comment + ');return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout;
+		var payoutPayload = '<a href="#" onclick={commentMeta("' + comment + '",' + true + ',' + false + ');voteComment(' + comment + ');return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout;
 
 		document.getElementById(comment.author + '/' + comment.permlink).innerHTML = payoutPayload;
 	});
