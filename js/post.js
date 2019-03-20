@@ -5,9 +5,9 @@ converter.setOption('ghMentions', true);
 converter.setOption('ghMentionsLink', 'https://steemit.com/@{u}');
 
 var querystring = location.search;
-var author = querystring.split('/')[0];
-author = author.slice(1, author.length);
-var permlink = querystring.split('/')[1];
+var parentAuthor = querystring.split('/')[0];
+parentAuthor = author.slice(1, author.length);
+var parentPermlink = querystring.split('/')[1];
 
 var token;
 var expiresIn;
@@ -36,7 +36,7 @@ if(localStorage.query == null)
 
 function loadPost(voting, voted)
 {
-	steem.api.getContent(author, permlink, function(err, content)
+	steem.api.getContent(parentAuthor, parentPermlink, function(err, content)
 	{
 		var title = content.title;
 		var html = converter.makeHtml(content.body);
@@ -95,8 +95,8 @@ function loadPost(voting, voted)
 				month = "December"; break;
 		}
 
-		var url = 'https://steemit.com/@' + author;
-		var meta = 'Posted by <a href=' + url + '> @' + author + '</a> on ' + month + ' ' + day + ',' + ' ' + year;
+		var url = 'https://steemit.com/@' + parentAuthor;
+		var meta = 'Posted by <a href=' + url + '> @' + parentAuthor + '</a> on ' + month + ' ' + day + ',' + ' ' + year;
 
 		document.getElementById("title").innerHTML = title;
 		document.getElementById("meta").innerHTML = meta;
@@ -135,7 +135,7 @@ function vote()
 {
 	if(localStorage.query != null)
 	{
-		api.vote(username, author, permlink, 10000, function (err, result)
+		api.vote(username, parentAuthor, parentPermlink, 10000, function (err, result)
 		{
 	    	console.log(err, result);
 
@@ -152,11 +152,11 @@ function vote()
 	}
 }
 
-function voteComment(comment)
+function voteComment(author, permlink)
 {
 	if(localStorage.query != null)
 	{
-		api.vote(username, comment.author, comment.permlink, 10000, function (err, result)
+		api.vote(username, author, permlink, 10000, function (err, result)
 		{
 	    	console.log(err, result);
 
@@ -187,15 +187,15 @@ slider.oninput = function()
 
 function makeGuess()
 {
-	var childPermlink = steem.formatter.commentPermlink(author, permlink);
-	api.comment(author, permlink, username, childPermlink, '', sliderValue, {"app":"dcontest"}, function (err, res)
+	var childPermlink = steem.formatter.commentPermlink(parentAuthor, parentPermlink);
+	api.comment(parentAuthor, parentPermlink, username, childPermlink, '', sliderValue, {"app":"dcontest"}, function (err, res)
 	{
 		console.log(err, res)
 	});
 }
 
-document.getElementById("comments").innerHTML = '<div id="' + permlink + '"> </div>';
-getReplies(author, permlink);
+document.getElementById("comments").innerHTML = '<div id="' + parentPermlink + '"> </div>';
+getReplies(parentAuthor, parentPermlink);
 
 function renderComment(comment, profileImage)
 {
@@ -270,7 +270,7 @@ function getReplies(author, permlink)
 
 			for(var i = 0; i < result.length; i++)
 			{
-				commentMeta(result[i], false, false);
+				commentMeta(result[i].author, result[i].permlink, result[i].last_payout, result[i].pending_payout_value, result[i].total_payout_value, result[i].curator_payout_value, false, false);
 			}
 
 			for(var i = 0; i < result.length; i++)
@@ -284,9 +284,9 @@ function getReplies(author, permlink)
 	});
 }
 
-function commentMeta(comment, voting, voted)
+function commentMeta(author, permlink, last_payout, pending_payout_value, total_payout_value, curator_payout_value, voting, voted)
 {
-	steem.api.getActiveVotes(comment.author, comment.permlink, function(err, votes)
+	steem.api.getActiveVotes(author, permlink, function(err, votes)
 	{
 		var image = '<img src="img/upvote.png" alt="upvote image" width="20" height="20">';
 		for(var i = 0; i < votes.length; i++)
@@ -302,13 +302,13 @@ function commentMeta(comment, voting, voted)
 		var votes = votes.length;
 
 		var payout;
-		if(comment.last_payout[0] == '1')
-			payout = (parseFloat(comment.pending_payout_value.split(' ')[0])).toFixed(2);
+		if(last_payout[0] == '1')
+			payout = (parseFloat(pending_payout_value.split(' ')[0])).toFixed(2);
 		else
-			payout = (parseFloat(comment.total_payout_value.split(' ')[0]) + parseFloat(comment.curator_payout_value.split(' ')[0])).toFixed(2);
+			payout = (parseFloat(total_payout_value.split(' ')[0]) + parseFloat(curator_payout_value.split(' ')[0])).toFixed(2);
 
-		var payoutPayload = '<a href="#" onclick={commentMeta(this.comment,true,false);voteComment(this.comment);return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout;
+		var payoutPayload = '<a href="#" onclick={commentMeta("' + author + '","' + permlink + '","' + last_payout + '","' + pending_payout_value + '","' + total_payout_value + '","' + curator_payout_value + '",true,false);voteComment("' + author + '","' + permlink + '"");return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout;
 
-		document.getElementById(comment.author + '/' + comment.permlink).innerHTML = payoutPayload;
+		document.getElementById(author + '/' + permlink).innerHTML = payoutPayload;
 	});
 }
