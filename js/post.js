@@ -152,7 +152,7 @@ function vote()
 	}
 }
 
-function voteComment(author, permlink, last_payout, pending_payout_value, total_payout_value, curator_payout_value)
+function voteComment(author, permlink)
 {
 	if(localStorage.query != null)
 	{
@@ -162,7 +162,7 @@ function voteComment(author, permlink, last_payout, pending_payout_value, total_
 
 	    	if(result.result.expired == false)
 	    	{
-	    		commentMeta(author, permlink, last_payout, pending_payout_value, total_payout_value, curator_payout_value, false, true);
+	    		commentMeta(author, permlink, false);
 	    	}
 		});
 	}
@@ -270,7 +270,7 @@ function getReplies(author, permlink)
 
 			for(var i = 0; i < result.length; i++)
 			{
-				commentMeta(result[i].author, result[i].permlink, result[i].last_payout, result[i].pending_payout_value, result[i].total_payout_value, result[i].curator_payout_value, false, false);
+				commentMeta(result[i].author, result[i].permlink, false);
 			}
 
 			for(var i = 0; i < result.length; i++)
@@ -284,20 +284,22 @@ function getReplies(author, permlink)
 	});
 }
 
-function commentMeta(author, permlink, last_payout, pending_payout_value, total_payout_value, curator_payout_value, voting, voted)
+function commentMeta(author, permlink, voting)
 {
 	steem.api.getContent(author, permlink, function(err, content)
 	{
+		var last_payout = content.last_payout;
+		var pending_payout_value = content.pending_payout_value;
+		var total_payout_value = content.total_payout_value;
+		var curator_payout_value = content.curator_payout_value;
+
 		var image = '<img src="img/upvote.png" alt="upvote image" width="20" height="20">';
 		for(var i = 0; i < content.active_votes.length; i++)
 		{
 			if(content.active_votes[i].voter == username)
-			{
 				image = '<img src="img/upvoted.png" alt="upvoted image" width="20" height="20">';
-			}
 		}
 		if (voting == true) image = '<img src="img/loading.gif" alt="upvoted image" width="20" height="20">';
-		if(voted == true) image = '<img src="img/upvoted.png" alt="upvoted image" width="20" height="20">';
 
 		var votes = content.active_votes.length;
 
@@ -307,7 +309,7 @@ function commentMeta(author, permlink, last_payout, pending_payout_value, total_
 		else
 			payout = (parseFloat(content.total_payout_value.split(' ')[0]) + parseFloat(content.curator_payout_value.split(' ')[0])).toFixed(2);
 
-		var payoutPayload = '<a href="#" onclick={commentMeta("' + content.author + '","' + content.permlink + '","' + content.last_payout + '","' + parseFloat(content.pending_payout_value.split(' ')[0]) + '","' + parseFloat(content.total_payout_value.split(' ')[0]) + '","' + parseFloat(content.curator_payout_value.split(' ')[0]) + '",true,false);voteComment("' + content.author + '","' + content.permlink + '","' + content.last_payout + '","' + parseFloat(content.pending_payout_value.split(' ')[0]) + '","' + parseFloat(content.total_payout_value.split(' ')[0]) + '","' + parseFloat(content.curator_payout_value.split(' ')[0]) + '");return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout;
+		var payoutPayload = '<a href="#" onclick={commentMeta("' + author + '","' + permlink + '",true);voteComment("' + author + '","' + permlink + '");return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout;
 
 		document.getElementById(author + '/' + permlink).innerHTML = payoutPayload;
 	});
