@@ -7,9 +7,9 @@
 //wyswietlanie komentarzy
 //zarobki postow mlodszych niz tydzien
 //mozliwosc upvote komentarza
+//mozliwosc napisania komentarza
 
 //domena
-//mozliwosc napisania komentarza
 //adsense
 //osobny blog do hostowania tresci LUB psotowanie konkursow normalnie, ale przez strone dcontest (prawdziwy post w metadata)
 
@@ -166,6 +166,11 @@ function decodeQuery()
 
 function logOut()
 {
+	api.revokeToken(function (err, result)
+	{
+  		console.log(err, result);
+	});
+
 	localStorage.removeItem("query");
 }
 
@@ -175,17 +180,14 @@ function vote(author, permlink, index)
 	{
 		api.vote(username, author, permlink, 10000, function (err, result)
 		{
-	    	console.log(err, result);
+	    	if(err)
+	    		alert('Something went wrong.');
 
-	    	if(result.result.expired == false)
-	    	{
+	    	else
 	    		loadPosts(false, -1, index);
-	    	}
 		});
 	}
 
 	else
-	{
-		console.log('You are not logged!');
-	}
+		alert('You are not logged in!');
 }

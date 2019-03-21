@@ -18,6 +18,7 @@ var output = document.getElementById("demo");
 output.innerHTML = '$' + slider.value/10;
 var sliderValue = 0;
 
+document.getElementById("submitPrediction").innerHTML = '<span class="pager"> <li class="next"> <a href="#" onclick={makeGuess();return(false);}> Submit your guess </a> </li> </span>';
 document.getElementById("reply").innerHTML = '<div id="reply/' + parentAuthor + '/' + parentPermlink + '"> </div>';
 document.getElementById("comments").innerHTML = '<div id="' + parentPermlink + '"> </div>';
 getReplies(parentAuthor, parentPermlink);
@@ -182,19 +183,16 @@ function vote()
 	{
 		api.vote(username, parentAuthor, parentPermlink, 10000, function (err, result)
 		{
-	    	console.log(err, result);
+	    	if(err)
+	    		alert('Something went wrong.');
 
-	    	if(result.result.expired == false)
-	    	{
-	    		loadPost(false, true);
-	    	}
+	    	else
+				loadPost(false, true);
 		});
 	}
 
 	else
-	{
-		console.log('You are not logged!');
-	}
+		alert('You are not logged in!');
 }
 
 function voteComment(author, permlink)
@@ -203,19 +201,16 @@ function voteComment(author, permlink)
 	{
 		api.vote(username, author, permlink, 10000, function (err, result)
 		{
-	    	console.log(err, result);
+			if(err)
+				alert('Something went wrong.');
 
-	    	if(result.result.expired == false)
-	    	{
+	    	else
 	    		commentMeta(author, permlink, false);
-	    	}
 		});
 	}
 
 	else
-	{
-		console.log('You are not logged!');
-	}
+		alert('You are not logged in!');
 }
 
 slider.oninput = function()
@@ -226,11 +221,23 @@ slider.oninput = function()
 
 function makeGuess()
 {
-	var childPermlink = steem.formatter.commentPermlink(parentAuthor, parentPermlink);
-	api.comment(parentAuthor, parentPermlink, username, childPermlink, '', sliderValue, {"app":"dcontest"}, function (err, res)
+	document.getElementById("submitPrediction").innerHTML = '<img style="float: right;margin-top: 10px;" src="img/loading.gif" alt="upvoted image" width="20" height="20">';
+
+	if(localStorage.query == null)
 	{
-		console.log(err, res)
-	});
+		var childPermlink = steem.formatter.commentPermlink(parentAuthor, parentPermlink);
+		api.comment(parentAuthor, parentPermlink, username, childPermlink, '', sliderValue, {"app":"dcontest"}, function (err, result)
+		{
+			if(err)
+				alert('Something went wrong.');
+
+			else
+				document.getElementById("slider").innerHTML = '<div style="margin-top: 80px;font-weight: bold;text-align: right;"> Your prediction has been successfully submitted. </div>';
+		});
+	}
+
+	else
+		alert('You are not logged in!');
 }
 
 function renderComment(comment, profileImage)
