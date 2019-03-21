@@ -83,9 +83,9 @@
                     <div> <p class="post-meta"> <span id="payout" style="float:right;"> </span> </p> </div>
 
                     <div class="slidecontainer">
-                        <input type="range" min="0" max="250" value="125" class="slider" id="myRange">
-                        <span style="float:left;"> Your prediction: <span id="demo"></span></span>
-                        <span class="pager"> <li class="next"> <a href="#" onclick={makeGuess();return(false);}> Make a guess! </a> </li> </span>
+                        <input type="range" min="0" max="1000" value="500" class="slider" id="myRange">
+                        <span style="float:left;margin-top: 15px;font-weight: bold"> Your prediction: <span id="demo"></span></span>
+                        <span class="pager"> <li class="next"> <a href="#" onclick={makeGuess();return(false);}> Submit your guess </a> </li> </span>
                     </div>
 
                 </div>
@@ -99,7 +99,9 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-                <div class="comments" id="comments"> </div>
+                <div id="reply"> </div>
+                <div id="comments" class="comments"> </div>
+
             </div>
         </div>
     </div>

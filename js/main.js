@@ -11,8 +11,11 @@
 //domena
 //mozliwosc napisania komentarza
 //adsense
-//osobny blog do hostowania tresci
+//osobny blog do hostowania tresci LUB psotowanie konkursow normalnie, ale przez strone dcontest (prawdziwy post w metadata)
 
+//znaczek ladowania przy guess i komentarzu
+//powiadomienie o success
+//dobre aktualizowanie ilosci glosow i wartosci w home po upvote
 //przyciski z linkami do delegacji
 
 var numberOfPosts = 0;

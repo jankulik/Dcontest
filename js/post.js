@@ -13,6 +13,15 @@ var token;
 var expiresIn;
 var username;
 
+var slider = document.getElementById("myRange");
+var output = document.getElementById("demo");
+output.innerHTML = '$' + slider.value/10;
+var sliderValue = 0;
+
+document.getElementById("reply").innerHTML = '<div id="reply/' + parentAuthor + '/' + parentPermlink + '"> </div>';
+document.getElementById("comments").innerHTML = '<div id="' + parentPermlink + '"> </div>';
+getReplies(parentAuthor, parentPermlink);
+
 var api = sc2.Initialize({
 	app: 'dcontest',
 	callbackURL: 'https://jankulik.github.io',
@@ -60,7 +69,7 @@ function loadPost(voting, voted)
 
 		var comments = content.children;
 		var votes = content.active_votes.length;
-		var payoutPayload = '<a href="#" onclick={loadPost(true,false);vote();return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="17" height="19">' + ' ' + comments;
+		var payoutPayload = '<a href="#" onclick={loadPost(true,false);vote();return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="17" height="19">' + ' ' + comments + '&emsp;' + '<a href="#" onclick={makeComment("' + parentAuthor + '","' + parentPermlink + '",false);return(false);} style="text-decoration:none"> Reply </a>';
 
 		var date = new Date(content.created);
 		var day = date.getDate();
@@ -105,6 +114,36 @@ function loadPost(voting, voted)
 	});
 }
 
+function makeComment(author, permlink, cancel)
+{
+	if(cancel == false)
+	{
+		document.getElementById('reply/' + author + '/' + permlink).innerHTML = `
+		<textarea id="text/${author}/${permlink}" placeholder="Write something..."></textarea>
+		<div>
+			<span style="float: right;margin-left: 15px;margin-top: 12px;"> <a href="#" onclick={makeComment("${author}","${permlink}",true);return(false);} style="text-decoration:none"> Cancel </a> </span>
+			<span class="pager"> <li class="next"> <a href="#" onclick={submitComment("${author}","${permlink}");return(false);}> Submit </a> </li> </span>
+		</div>`;
+	}
+	else
+	{
+		document.getElementById('reply/' + author + '/' + permlink).innerHTML = '';
+	}
+}
+
+function submitComment(author, permlink)
+{
+	var body = document.getElementById('text/' + author + '/' + permlink).value;
+
+	var childPermlink = steem.formatter.commentPermlink(author, permlink);
+	api.comment(author, permlink, username, childPermlink, '', body, {"app":"dcontest"}, function (err, result)
+	{
+  		console.log(err, result);
+
+  		getReplies(author, permlink);
+	});
+}
+
 function decodeQuery()
 {
     var parameters = localStorage.query.split('&');
@@ -128,6 +167,11 @@ function decodeQuery()
 
 function logOut()
 {
+	api.revokeToken(function (err, result)
+	{
+  		console.log(err, result);
+	});
+
 	localStorage.removeItem("query");
 }
 
@@ -173,16 +217,10 @@ function voteComment(author, permlink)
 	}
 }
 
-var slider = document.getElementById("myRange");
-var output = document.getElementById("demo");
-output.innerHTML = '$ ' + slider.value/10;
-
-var sliderValue = 0;
-
 slider.oninput = function()
 {
-  output.innerHTML = '$ ' + this.value/10;
-  sliderValue = '$ ' + this.value/10;
+  output.innerHTML = '$' + this.value/10;
+  sliderValue = '$' + this.value/10;
 }
 
 function makeGuess()
@@ -193,9 +231,6 @@ function makeGuess()
 		console.log(err, res)
 	});
 }
-
-document.getElementById("comments").innerHTML = '<div id="' + parentPermlink + '"> </div>';
-getReplies(parentAuthor, parentPermlink);
 
 function renderComment(comment, profileImage)
 {
@@ -227,6 +262,7 @@ function renderComment(comment, profileImage)
 					${body}
 				</div>
 				<div id="${author + '/' + permlink}" class="comment-meta"> </div>
+				<div id="${'reply/' + author + '/' + permlink}" style="margin-top: 15px;margin-left: 60px;"> </div>
 				<hr>
 				<ul id=${permlink}> </ul>
 			</li>`;
@@ -309,7 +345,7 @@ function commentMeta(author, permlink, voting)
 		else
 			payout = (parseFloat(content.total_payout_value.split(' ')[0]) + parseFloat(content.curator_payout_value.split(' ')[0])).toFixed(2);
 
-		var payoutPayload = '<a href="#" onclick={commentMeta("' + author + '","' + permlink + '",true);voteComment("' + author + '","' + permlink + '");return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout;
+		var payoutPayload = '<a href="#" onclick={commentMeta("' + author + '","' + permlink + '",true);voteComment("' + author + '","' + permlink + '");return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout + '&emsp;' + '<a href="#" onclick={makeComment("' + author + '","' + permlink + '",false);return(false);} style="text-decoration:none"> Reply </a>';
 
 		document.getElementById(author + '/' + permlink).innerHTML = payoutPayload;
 	});
