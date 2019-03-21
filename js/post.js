@@ -140,6 +140,7 @@ function submitComment(author, permlink)
 	{
   		console.log(err, result);
 
+  		makeComment(author, permlink, true);
   		getReplies(author, permlink);
 	});
 }
@@ -245,8 +246,8 @@ function renderComment(comment, profileImage)
 		metadata = JSON.parse(comment.json_metadata);
 
 	var dapp = '';
-	if(metadata.app == 'dcontest')
-		dapp = '<img src="img/dapp.png" alt="image" style="width:108px;height:20px;">';
+	//if(metadata.app == 'dcontest')
+		//dapp = '<img src="img/dapp.png" alt="image" style="width:108px;height:20px;">';
 
 	var commentHtml = `
 			<li style="max-width:600px;">
