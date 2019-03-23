@@ -2,6 +2,12 @@ var token;
 var expiresIn;
 var username;
 
+var api = sc2.Initialize({
+    app: 'dcontest',
+    callbackURL: 'https://jankulik.github.io',
+    accessToken: 'access_token',
+    scope: ['vote', 'comment']
+});
 var authorizationLink = 'https://steemconnect.com/oauth2/authorize?client_id=dcontest&redirect_uri=https%3A%2F%2Fjankulik.github.io&scope=vote,comment';
 
 if(localStorage.query != null)
