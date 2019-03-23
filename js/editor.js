@@ -1,4 +1,7 @@
+var token;
+var expiresIn;
 var username;
+
 var authorizationLink = 'https://steemconnect.com/oauth2/authorize?client_id=dcontest&redirect_uri=https%3A%2F%2Fjankulik.github.io&scope=vote,comment';
 
 if(localStorage.query != null)
@@ -21,9 +24,18 @@ function decodeQuery()
     {
         var pair = parameters[i].split('=');
         
-        if(pair[0] == 'username')
-        	username = pair[1];
+        switch(pair[0])
+        {
+            case 'access_token':
+                token = pair[1]; break;
+            case 'expires_in':
+                expiresIn = pair[1]; break;
+            case 'username':
+                username = pair[1]; break;
+        }
     }
+
+    api.setAccessToken(token);
 }
 
 function logOut()
@@ -34,4 +46,28 @@ function logOut()
     });
 
 	localStorage.removeItem("query");
+}
+
+function submit()
+{
+    if(localStorage.query != null)
+    {
+        var body = document.getElementById("steemit_content").value;
+        var metaBody = document.getElementById("dcontest_content").value;
+
+        var parentPermlink = 'hello-steem-i-have-the-pleasure-to-introduce-myself';
+
+        var childPermlink = steem.formatter.commentPermlink(author, permlink);
+
+        api.comment('pieniazek', parentPermlink, 'pieniazek', childPermlink, '', body, {"meta_body": meta_body}, function (err, result)
+        {
+            console.log(err, result);
+
+            if(!err)
+                alert('sukcessinho');
+        });
+    }
+
+    else
+        alert('You are not logged in!');
 }

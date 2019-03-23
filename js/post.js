@@ -123,7 +123,7 @@ function makeComment(author, permlink, cancel)
 		<textarea id="text/${author}/${permlink}" placeholder="Write something..."></textarea>
 		<div>
 			<span style="float: right;margin-left: 15px;margin-top: 12px;"> <a href="#" onclick={makeComment("${author}","${permlink}",true);return(false);} style="text-decoration:none"> Cancel </a> </span>
-			<span class="pager"> <li class="next"> <a href="#" onclick={submitComment("${author}","${permlink}");return(false);}> Submit </a> </li> </span>
+			<span id="button/${author}/${permlink}" class="pager"> <li class="next"> <a href="#" onclick={submitComment("${author}","${permlink}");return(false);}> Submit </a> </li> </span>
 		</div>`;
 	}
 	else
@@ -134,16 +134,28 @@ function makeComment(author, permlink, cancel)
 
 function submitComment(author, permlink)
 {
-	var body = document.getElementById('text/' + author + '/' + permlink).value;
+	document.getElementById('button/' + author + '/' + permlink).innerHTML = '<img src="img/loading.gif" style="float: right;margin-top: 15px;" alt="loading image" width="20" height="20">';
 
-	var childPermlink = steem.formatter.commentPermlink(author, permlink);
-	api.comment(author, permlink, username, childPermlink, '', body, {"app":"dcontest"}, function (err, result)
+	if(localStorage.query != null)
 	{
-  		console.log(err, result);
+		var body = document.getElementById('text/' + author + '/' + permlink).value;
 
-  		makeComment(author, permlink, true);
-  		getReplies(author, permlink);
-	});
+		var childPermlink = steem.formatter.commentPermlink(author, permlink);
+		api.comment(author, permlink, username, childPermlink, '', body, {"app":"dcontest"}, function (err, result)
+		{
+			if(err)
+	    		alert('Something went wrong.');
+
+			else
+			{
+		  		makeComment(author, permlink, true);
+		  		getReplies(author, permlink);
+		  	}
+		});
+	}
+
+	else
+		alert('You are not logged in!');
 }
 
 function decodeQuery()
@@ -223,7 +235,7 @@ function makeGuess()
 {
 	document.getElementById("submitPrediction").innerHTML = '<img style="float: right;margin-top: 10px;" src="img/loading.gif" alt="upvoted image" width="20" height="20">';
 
-	if(localStorage.query == null)
+	if(localStorage.query != null)
 	{
 		var childPermlink = steem.formatter.commentPermlink(parentAuthor, parentPermlink);
 		api.comment(parentAuthor, parentPermlink, username, childPermlink, '', sliderValue, {"app":"dcontest"}, function (err, result)

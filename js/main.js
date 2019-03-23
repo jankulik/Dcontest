@@ -8,14 +8,15 @@
 //zarobki postow mlodszych niz tydzien
 //mozliwosc upvote komentarza
 //mozliwosc napisania komentarza
+//powiadomienie o success
+//znaczek ladowania przy guess i komentarzu
 
 //domena
 //adsense
 //osobny blog do hostowania tresci LUB psotowanie konkursow normalnie, ale przez strone dcontest (prawdziwy post w metadata)
 
-//znaczek ladowania przy guess i komentarzu
-//powiadomienie o success
-//dobre aktualizowanie ilosci glosow i wartosci w home po upvote
+//opcja edytor pojawia sie na wszystkich kartach dopiero kiedy zalogujesz sie przez dcontest
+//dobre aktualizowanie ilosci glosow i wartosci w podstronie home po upvote
 //przyciski z linkami do delegacji
 
 var numberOfPosts = 0;
@@ -39,6 +40,9 @@ if(localStorage.query != null)
 	decodeQuery();
 	document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@' + username + '">' + username + '</a>';
 	document.getElementById("menu2").innerHTML = '<a href="https://jankulik.github.io" onclick="logOut()"> Log out </a>';
+
+	if(username == 'pieniazek')
+		document.getElementById("editor").innerHTML = '<a href="https://jankulik.github.io/editor.html"> Editor </a>';
 }
 
 if(localStorage.query == null)
