@@ -63,7 +63,7 @@ function submit()
 
         var parentPermlink = 'hello-steem-i-have-the-pleasure-to-introduce-myself';
 
-        var childPermlink = steem.formatter.commentPermlink(author, permlink);
+        var childPermlink = steem.formatter.commentPermlink('pieniazek', parentPermlink);
 
         api.comment('pieniazek', parentPermlink, 'pieniazek', childPermlink, '', body, {"meta_body": meta_body}, function (err, result)
         {
