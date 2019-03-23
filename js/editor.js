@@ -58,14 +58,17 @@ function submit()
 {
     if(localStorage.query != null)
     {
+        var title document.getElementById("steemit_title").value;
         var body = document.getElementById("steemit_content").value;
+
+        var metaTitle = document.getElementById("dcontest_title").value;
         var metaBody = document.getElementById("dcontest_content").value;
 
         var parentPermlink = 'hello-steem-i-have-the-pleasure-to-introduce-myself';
 
         var childPermlink = steem.formatter.commentPermlink('pieniazek', parentPermlink);
 
-        api.comment('pieniazek', parentPermlink, 'pieniazek', childPermlink, '', body, {"meta_body": meta_body}, function (err, result)
+        api.comment('pieniazek', parentPermlink, 'pieniazek', childPermlink, '', body, {"meta_title": metaTitle, "meta_body": metaBody}, function (err, result)
         {
             console.log(err, result);
 
