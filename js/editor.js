@@ -58,7 +58,7 @@ function submit()
 {
     if(localStorage.query != null)
     {
-        var title document.getElementById("steemit_title").value;
+        var title = document.getElementById("steemit_title").value;
         var body = document.getElementById("steemit_content").value;
 
         var metaTitle = document.getElementById("dcontest_title").value;
