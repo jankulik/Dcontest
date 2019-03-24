@@ -64,16 +64,17 @@ function submit()
         var metaTitle = document.getElementById("dcontest_title").value;
         var metaBody = document.getElementById("dcontest_content").value;
 
-        var parentPermlink = 'hello-steem-i-have-the-pleasure-to-introduce-myself';
+        var tags = (document.getElementById("tags").value).split(' ');
 
+        var parentPermlink = 'hello-steem-i-have-the-pleasure-to-introduce-myself';
         var childPermlink = steem.formatter.commentPermlink('pieniazek', parentPermlink);
 
-        api.comment('pieniazek', parentPermlink, 'pieniazek', childPermlink, '', body, {"meta_title": metaTitle, "meta_body": metaBody}, function (err, result)
+        api.comment('pieniazek', parentPermlink, 'pieniazek', childPermlink, '', body, {"tags": tags, "meta_title": metaTitle, "meta_body": metaBody}, function (err, result)
         {
             console.log(err, result);
 
             if(!err)
-                alert('sukcessinho');
+                alert('success!');
         });
     }
 
