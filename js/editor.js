@@ -56,7 +56,7 @@ function logOut()
 
 function submit()
 {
-    if(localStorage.query != null)
+    if(localStorage.query == null)
     {
         var title = document.getElementById("steemit_title").value;
         var body = document.getElementById("steemit_content").value;
@@ -66,10 +66,10 @@ function submit()
 
         var tags = (document.getElementById("tags").value).split(' ');
 
-        var parentPermlink = 'hello-steem-i-have-the-pleasure-to-introduce-myself';
-        var childPermlink = steem.formatter.commentPermlink('pieniazek', parentPermlink);
+        //var parentPermlink = 'hello-steem-i-have-the-pleasure-to-introduce-myself';
+        var childPermlink = 'this-is-a-test-permlink';
 
-        api.comment('pieniazek', parentPermlink, 'pieniazek', childPermlink, '', body, {"tags": tags, "meta_title": metaTitle, "meta_body": metaBody}, function (err, result)
+        api.comment('', tags[0], 'pieniazek', childPermlink, title, body, {"tags": tags, "meta_title": metaTitle, "meta_body": metaBody, "format": "markdown"}, function (err, result)
         {
             console.log(err, result);
 
