@@ -6,6 +6,9 @@ if(localStorage.query != null)
 	decodeQuery();
 	document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@' + username + '">' + username + '</a>';
 	document.getElementById("menu2").innerHTML = '<a href="https://jankulik.github.io" onclick="logOut()"> Log out </a>';
+
+    if(username == 'dcontest')
+        document.getElementById("editor").innerHTML = '<a href="https://jankulik.github.io/editor.html"> Editor </a>';
 }
 
 if(localStorage.query == null)
