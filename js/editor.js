@@ -2,6 +2,8 @@ var token;
 var expiresIn;
 var username;
 
+var steemitTitle = document.getElementById("steemit_title");
+
 var api = sc2.Initialize({
     app: 'dcontest',
     callbackURL: 'https://jankulik.github.io',
@@ -56,7 +58,7 @@ function logOut()
 
 function submit()
 {
-    if(localStorage.query == null)
+    if(localStorage.query != null)
     {
         var title = document.getElementById("steemit_title").value;
         var body = document.getElementById("steemit_content").value;
@@ -64,20 +66,28 @@ function submit()
         var metaTitle = document.getElementById("dcontest_title").value;
         var metaBody = document.getElementById("dcontest_content").value;
 
+        var childPermlink = toPermlink(title);
         var tags = (document.getElementById("tags").value).split(' ');
 
-        //var parentPermlink = 'hello-steem-i-have-the-pleasure-to-introduce-myself';
-        var childPermlink = 'this-is-a-test-permlink';
-
-        api.comment('', tags[0], 'pieniazek', childPermlink, title, body, {"tags": tags, "meta_title": metaTitle, "meta_body": metaBody, "format": "markdown"}, function (err, result)
+        api.comment('', tags[0], username, childPermlink, title, body, {"tags": tags, "meta_title": metaTitle, "meta_body": metaBody}, function (err, result)
         {
             console.log(err, result);
 
             if(!err)
-                alert('success!');
+                alert('Success!');
         });
     }
 
     else
         alert('You are not logged in!');
+}
+
+steemitTitle.oninput = function()
+{
+    document.getElementById("url").innerHTML = 'https://jankulik.github.io/post.html?' + username + '/' + toPermlink(document.getElementById("steemit_title").value);
+}
+
+function toPermlink(string)
+{
+    return string.replace(/[^a-z0-9]+/gi, '-').replace(/^-*|-*$/g, '').toLowerCase();
 }

@@ -10,12 +10,12 @@
 //mozliwosc napisania komentarza
 //powiadomienie o success
 //znaczek ladowania przy guess i komentarzu
+//osobny blog do hostowania tresci LUB psotowanie konkursow normalnie, ale przez strone dcontest (prawdziwy post w metadata)
 
 //domena
 //adsense
-//osobny blog do hostowania tresci LUB psotowanie konkursow normalnie, ale przez strone dcontest (prawdziwy post w metadata)
-
 //opcja edytor pojawia sie na wszystkich kartach dopiero kiedy zalogujesz sie przez dcontest
+
 //dobre aktualizowanie ilosci glosow i wartosci w podstronie home po upvote
 //przyciski z linkami do delegacji
 
@@ -55,15 +55,19 @@ function loadPosts(loadNew, votingIndex, votedIndex)
 {
 	if(loadNew) numberOfPosts += 7;
 	
-	steem.api.getDiscussionsByBlog({tag: 'neavvy', limit: numberOfPosts}, function(err, posts) 
+	steem.api.getDiscussionsByBlog({tag: 'pieniazek', limit: numberOfPosts}, function(err, posts) 
 	{
 		var payload = '';
 
 		for(var i = 0; i < posts.length; i++)
 		{
-			console.log(posts[i]);
-
 			var title = posts[i].title;
+			if(posts[i].json_metadata !== '')
+			{
+				if(JSON.parse(posts[i].json_metadata).meta_title !== undefined)
+					title = JSON.parse(posts[i].json_metadata).meta_title;
+			}
+
 			var comments = posts[i].children;
 			var votes = posts[i].active_votes.length;
 
@@ -74,7 +78,13 @@ function loadPosts(loadNew, votingIndex, votedIndex)
 
 			var author = posts[i].author;
 			var permlink = posts[i].permlink;
+
 			var body = posts[i].body;
+			if(posts[i].json_metadata !== '')
+			{
+				if(JSON.parse(posts[i].json_metadata).meta_body !== undefined)
+					body = JSON.parse(posts[i].json_metadata).meta_body;
+			}
 
 			var payout;
 			if(posts[i].last_payout[0] == '1')

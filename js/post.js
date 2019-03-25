@@ -49,7 +49,20 @@ function loadPost(voting, voted)
 	steem.api.getContent(parentAuthor, parentPermlink, function(err, content)
 	{
 		var title = content.title;
-		var html = converter.makeHtml(content.body);
+		if(content.json_metadata !== '')
+		{
+			if(JSON.parse(content.json_metadata).meta_title !== undefined)
+				title = JSON.parse(content.json_metadata).meta_title;
+		}
+
+		var body = content.body;
+		if(content.json_metadata !== '')
+		{
+			if(JSON.parse(content.json_metadata).meta_body !== undefined)
+				body = JSON.parse(content.json_metadata).meta_body;
+		}
+
+		var html = converter.makeHtml(body);
 
 		var image = '<img src="img/upvote.png" alt="upvote image" width="20" height="20">';
 		for(var i = 0; i < content.active_votes.length; i++)
