@@ -55,7 +55,7 @@ function loadPosts(loadNew, votingIndex, votedIndex)
 {
 	if(loadNew) numberOfPosts += 7;
 	
-	steem.api.getDiscussionsByBlog({tag: 'pieniazek', limit: numberOfPosts}, function(err, posts) 
+	steem.api.getDiscussionsByBlog({tag: 'dcontest', limit: numberOfPosts}, function(err, posts) 
 	{
 		var payload = '';
 
