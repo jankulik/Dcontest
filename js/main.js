@@ -11,10 +11,10 @@
 //powiadomienie o success
 //znaczek ladowania przy guess i komentarzu
 //osobny blog do hostowania tresci LUB psotowanie konkursow normalnie, ale przez strone dcontest (prawdziwy post w metadata)
+//opcja edytor pojawia sie na wszystkich kartach dopiero kiedy zalogujesz sie przez dcontest
 
 //domena
 //adsense
-//opcja edytor pojawia sie na wszystkich kartach dopiero kiedy zalogujesz sie przez dcontest
 
 //dobre aktualizowanie ilosci glosow i wartosci w podstronie home po upvote
 //przyciski z linkami do delegacji

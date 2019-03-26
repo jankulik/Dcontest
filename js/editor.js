@@ -87,7 +87,7 @@ function submit()
 
 steemitTitle.oninput = function()
 {
-    document.getElementById("url").innerHTML = 'https://jankulik.github.io/post.html?' + username + '/' + toPermlink(document.getElementById("steemit_title").value);
+    document.getElementById("url").innerHTML = 'https://dcontest.org/post.html?' + username + '/' + toPermlink(document.getElementById("steemit_title").value);
 }
 
 function toPermlink(string)
