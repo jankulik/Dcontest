@@ -25,20 +25,21 @@ getReplies(parentAuthor, parentPermlink);
 
 var api = sc2.Initialize({
 	app: 'dcontest',
-	callbackURL: 'https://jankulik.github.io',
+	callbackURL: 'https://dcontest.org',
 	accessToken: 'access_token',
 	scope: ['vote', 'comment']
 });
-var authorizationLink = 'https://steemconnect.com/oauth2/authorize?client_id=dcontest&redirect_uri=https%3A%2F%2Fjankulik.github.io&scope=vote,comment';
+var authorizationLink = 'https://steemconnect.com/oauth2/authorize?client_id=dcontest&redirect_uri=https%3A%2F%2Fdcontest.org&scope=vote,comment';
+
 
 if(localStorage.query != null)
 {
 	decodeQuery();
 	document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@' + username + '">' + username + '</a>';
-	document.getElementById("menu2").innerHTML = '<a href="https://jankulik.github.io" onclick="logOut()"> Log out </a>';
+	document.getElementById("menu2").innerHTML = '<a href="https://dcontest.org" onclick="logOut()"> Log out </a>';
 
 	if(username == 'dcontest')
-		document.getElementById("editor").innerHTML = '<a href="https://jankulik.github.io/editor.html"> Editor </a>';
+		document.getElementById("editor").innerHTML = '<a href="https://dcontest.org/editor.html"> Editor </a>';
 }
 
 if(localStorage.query == null)

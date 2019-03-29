@@ -12,8 +12,8 @@
 //znaczek ladowania przy guess i komentarzu
 //osobny blog do hostowania tresci LUB psotowanie konkursow normalnie, ale przez strone dcontest (prawdziwy post w metadata)
 //opcja edytor pojawia sie na wszystkich kartach dopiero kiedy zalogujesz sie przez dcontest
-
 //domena
+
 //adsense
 
 //dobre aktualizowanie ilosci glosow i wartosci w podstronie home po upvote
@@ -26,7 +26,7 @@ var username;
 
 var api = sc2.Initialize({
 	app: 'dcontest',
-	callbackURL: 'https://jankulik.github.io',
+	callbackURL: 'https://dcontest.org',
 	accessToken: 'access_token',
 	scope: ['vote', 'comment']
 });
@@ -39,10 +39,10 @@ if(localStorage.query != null)
 {
 	decodeQuery();
 	document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@' + username + '">' + username + '</a>';
-	document.getElementById("menu2").innerHTML = '<a href="https://jankulik.github.io" onclick="logOut()"> Log out </a>';
+	document.getElementById("menu2").innerHTML = '<a href="https://dcontest.org" onclick="logOut()"> Log out </a>';
 
 	if(username == 'dcontest')
-		document.getElementById("editor").innerHTML = '<a href="https://jankulik.github.io/editor.html"> Editor </a>';
+		document.getElementById("editor").innerHTML = '<a href="https://dcontest.org/editor.html"> Editor </a>';
 }
 
 if(localStorage.query == null)
