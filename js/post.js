@@ -126,6 +126,7 @@ function loadPost(voting, voted)
 		var meta = 'Posted by <a href=' + url + '> @' + parentAuthor + '</a> on ' + month + ' ' + day + ',' + ' ' + year;
 
 		html = html.replace(/blush/g, "😊");
+		html = html.replace(/smiley/g, "😃");
 
 		document.getElementById("title").innerHTML = title;
 		document.getElementById("meta").innerHTML = meta;
