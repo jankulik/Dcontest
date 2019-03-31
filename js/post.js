@@ -125,6 +125,8 @@ function loadPost(voting, voted)
 		var url = 'https://steemit.com/@' + parentAuthor;
 		var meta = 'Posted by <a href=' + url + '> @' + parentAuthor + '</a> on ' + month + ' ' + day + ',' + ' ' + year;
 
+		html = html.replace(/blush/g, "😊");
+
 		document.getElementById("title").innerHTML = title;
 		document.getElementById("meta").innerHTML = meta;
 		document.getElementById("body").innerHTML = html;

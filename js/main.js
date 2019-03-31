@@ -136,12 +136,9 @@ function loadPosts(loadNew, votingIndex, votedIndex)
 		    var datePayload = 'Posted by ' + '<a style="text-decoration:none" href=' + url + '>' + '@' + author + '</a>' + ' on ' + month + ' ' + day + ',' + ' ' + year;
 		    var payoutPayload = '<a href="#" onclick={loadPosts(false,' + i + ',-1);vote("' + author + '","' + permlink + '",' + i + ');return(false);} style="text-decoration:none">' + image + '</a>' + '&nbsp;' + votes + '&emsp;' + '$' + payout + '&emsp;' + '<img src="img/chat.png" alt="chat image" align="middle" width="17" height="19">' + ' ' + comments;
 		    
-		    if(title !== "Dapp Test Post 1")
-		    {
-			    payload += '<div class="post-preview"> </div>';
-			    payload += '<a href="post.html?' + author + '/' + permlink + '"> <h2 class="post-title">' + title + '</h2> </a> <p class="post-meta"> <span style="text-align:left;">' + datePayload + '</span> <span style="float:right;">' + payoutPayload + '</span> </p>';
-			    payload += '<hr>';
-			}
+			payload += '<div class="post-preview"> </div>';
+			payload += '<a href="post.html?' + author + '/' + permlink + '"> <h2 class="post-title">' + title + '</h2> </a> <p class="post-meta"> <span style="text-align:left;">' + datePayload + '</span> <span style="float:right;">' + payoutPayload + '</span> </p>';
+			payload += '<hr>';
 		}
 
 		document.getElementById("feed").innerHTML = payload;
