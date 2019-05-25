@@ -28,12 +28,13 @@ var api = sc2.Initialize({
 	app: 'dcontest',
 	callbackURL: 'https://dcontest.org',
 	accessToken: 'access_token',
-	scope: ['vote', 'comment']
+	scope: ['vote', 'comment','offline']
 });
 var authorizationLink = api.getLoginURL();
 
 if(location.search.indexOf('?') != -1)
 	localStorage.query = location.search.substring(1);
+
 
 if(localStorage.query != null)
 {
