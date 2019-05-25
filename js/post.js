@@ -1,8 +1,11 @@
+var date = new Date;
+
 var converter = new showdown.Converter();
 converter.setOption('simplifiedAutoLink', true);
 converter.setOption('tables', true);
 converter.setOption('ghMentions', true);
 converter.setOption('ghMentionsLink', 'https://steemit.com/@{u}');
+converter.setOption('simpleLineBreaks', true);
 
 var querystring = location.search;
 var parentAuthor = querystring.split('/')[0];
@@ -34,12 +37,21 @@ var authorizationLink = 'https://steemconnect.com/oauth2/authorize?client_id=dco
 
 if(localStorage.query != null)
 {
-	decodeQuery();
-	document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@' + username + '">' + username + '</a>';
-	document.getElementById("menu2").innerHTML = '<a href="https://dcontest.org" onclick="logOut()"> Log out </a>';
+	if((date.getTime() - localStorage.time) / 1000 < 604000)
+	{
+		decodeQuery();
+		document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@' + username + '">' + username + '</a>';
+		document.getElementById("menu2").innerHTML = '<a href="https://dcontest.org" onclick="logOut()"> Log out </a>';
 
-	if(username == 'dcontest')
-		document.getElementById("editor").innerHTML = '<a href="https://dcontest.org/editor.html"> Editor </a>';
+		if(username == 'dcontest')
+		{
+			document.getElementById("editor").innerHTML = '<a href="https://dcontest.org/editor.html"> Editor </a>';
+			document.getElementById("seven77").innerHTML = '<a href="https://dcontest.org/seven77.html"> Seven77 </a>';
+		}
+	}
+
+	else
+		logOut();
 }
 
 if(localStorage.query == null)
@@ -52,6 +64,9 @@ function loadPost(voting, voted)
 {
 	steem.api.getContent(parentAuthor, parentPermlink, function(err, content)
 	{
+		if(parentAuthor !== 'dcontest')
+			document.getElementById("slider").style.display = "none";
+
 		var title = content.title;
 		if(content.json_metadata !== '')
 		{
@@ -67,6 +82,8 @@ function loadPost(voting, voted)
 		}
 
 		var html = converter.makeHtml(body);
+		var splitted = html.split(' ');
+		console.log(splitted);
 
 		var image = '<img src="img/upvote.png" alt="upvote image" width="20" height="20">';
 		for(var i = 0; i < content.active_votes.length; i++)
@@ -207,6 +224,7 @@ function logOut()
 	});
 
 	localStorage.removeItem("query");
+	localStorage.removeItem("time");
 }
 
 function vote()
@@ -323,7 +341,7 @@ function getReplies(author, permlink)
 			var comments = '';
 			for(var i = 0; i < result.length; i++)
 			{
-				var image;
+				var image = '';
 				if(accounts[i].json_metadata !== '')
 				{
 					if(JSON.parse(accounts[i].json_metadata).profile !== undefined)

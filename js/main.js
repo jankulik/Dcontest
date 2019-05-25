@@ -42,14 +42,17 @@ if(location.search.indexOf('?') != -1)
 
 if(localStorage.query != null)
 {
-	if((date.getTime() - localStorage.time) / 1000 < 120)
+	if((date.getTime() - localStorage.time) / 1000 < 604000)
 	{
 		decodeQuery();
 		document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@' + username + '">' + username + '</a>';
 		document.getElementById("menu2").innerHTML = '<a href="https://dcontest.org" onclick="logOut()"> Log out </a>';
 
 		if(username == 'dcontest')
+		{
 			document.getElementById("editor").innerHTML = '<a href="https://dcontest.org/editor.html"> Editor </a>';
+			document.getElementById("seven77").innerHTML = '<a href="https://dcontest.org/seven77.html"> Seven77 </a>';
+		}
 	}
 
 	else

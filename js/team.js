@@ -1,14 +1,25 @@
+var date = new Date;
+
 var username;
 var authorizationLink = 'https://steemconnect.com/oauth2/authorize?client_id=dcontest&redirect_uri=https%3A%2F%2Fdcontest.org&scope=vote,comment';
 
 if(localStorage.query != null)
 {
-	decodeQuery();
-	document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@' + username + '">' + username + '</a>';
-	document.getElementById("menu2").innerHTML = '<a href="https://dcontest.org" onclick="logOut()"> Log out </a>';
+    if((date.getTime() - localStorage.time) / 1000 < 604000)
+    {
+    	decodeQuery();
+    	document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@' + username + '">' + username + '</a>';
+    	document.getElementById("menu2").innerHTML = '<a href="https://dcontest.org" onclick="logOut()"> Log out </a>';
 
-    if(username == 'dcontest')
-        document.getElementById("editor").innerHTML = '<a href="https://dcontest.org/editor.html"> Editor </a>';
+        if(username == 'dcontest')
+        {
+            document.getElementById("editor").innerHTML = '<a href="https://dcontest.org/editor.html"> Editor </a>';
+            document.getElementById("seven77").innerHTML = '<a href="https://dcontest.org/seven77.html"> Seven77 </a>';
+        }
+    }
+
+    else
+        logOut();
 }
 
 if(localStorage.query == null)
@@ -37,4 +48,5 @@ function logOut()
     });
 
 	localStorage.removeItem("query");
+    localStorage.removeItem("time");
 }

@@ -39,7 +39,7 @@
     </script>
 </head>
 
-<body>
+<body onload="loadPosts(true,-1,-1)">
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -81,9 +81,9 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="page-heading">
-                        <h1> Our Team </h1>
+                        <h1> Seven77 </h1>
                         <hr class="small">
-                        <span class="subheading"> People behind Dcontest. </span>
+                        <span class="subheading"> Explore valuable content. </span>
                     </div>
                 </div>
             </div>
@@ -94,70 +94,10 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <!-- <p>
-                    <table>
-                        <tr>
-                            <th> Delegated Steem Power </th>
-                            <th> Promoted Content </th>
-                        </tr>
-                        <tr>
-                            <td> 1 - 100 </td>
-                            <td> 1 promotion every two weeks </td>
-                        </tr>
-                        <tr>
-                            <td> 100 - 200 </td>
-                            <td> 1 promotion every week </td>
-                        </tr>
-                        <tr>
-                            <td> 200 - 500 </td>
-                            <td> 2 promotions every week </td>
-                        </tr>
-                        <tr>
-                            <td> 500 - 1,000 </td>
-                            <td> 4 promotions every week </td>
-                        </tr>
-                        <tr>
-                            <td> 1,000 - 5,000 </td>
-                            <td> 6 promotions every week </td>
-                        </tr>
-                        <tr>
-                            <td> 5,000 - 10,000 </td>
-                            <td> 7 promotions every week </td>
-                        </tr>
-                        <tr>
-                            <td> 10,000 & above </td>
-                            <td> please contact the owner </td>
-                        </tr>
-                    </table>
-                </p> -->
 
-                <div class="row">
-                    <div class="column">
-                        <div class="card">
-                            <img src="img/freecrypto.jpg" alt="freecrypto" style="width:100%">
-                            <div class="container">
-                                <h2> Arshan Sayed </h2>
-                                <p class="title"> CEO &amp; Founder </p>
-                                <p><img src="img/steem-icon.png" alt="steem" width="26" height="26"> <a href="https://steemit.com/@freecrypto" style="text-decoration:none"> freecrypto </a></p>
-                                <p><img src="img/mail-icon.png" alt="mail" width="26" height="26"> arshansayed27@gmail.com </p>
-                                <p><img src="img/discord-icon.png" alt="discord" width="26" height="26"> freeCrypto#9217 </p>
-                            </div>
-                        </div>
-                    </div>
+            	<div id="feed"> </div>
 
-                    <div class="column">
-                        <div class="card">
-                        <img src="img/neavvy.jpg" alt="neavvy" style="width:100%">
-                            <div class="container">
-                                <h2> Jan Kulik </h2>
-                                <p class="title"> Main Developer </p>
-                                <p><img src="img/steem-icon.png" alt="steem" width="26" height="26"> <a href="https://steemit.com/@neavvy" style="text-decoration:none"> neavvy </a></p>
-                                <p><img src="img/mail-icon.png" alt="mail" width="26" height="26"> neavvy550@gmail.com </p>
-                                <p><img src="img/discord-icon.png" alt="discord" width="26" height="26"> neavvy#4212 </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <ul id="pager" class="pager"> </ul>
             </div>
         </div>
     </div>
@@ -212,7 +152,10 @@
     <!-- Theme JavaScript -->
     <script src="js/clean-blog.min.js"></script>
 
-    <script src="js/team.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.0/dist/showdown.min.js"></script>
+    <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
+
+    <script src="js/seven77.js"></script>
 </body>
 
 </html>
