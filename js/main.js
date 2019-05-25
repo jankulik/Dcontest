@@ -23,27 +23,37 @@ var numberOfPosts = 0;
 var token;
 var expiresIn;
 var username;
+var date = new Date;
 
 var api = sc2.Initialize({
 	app: 'dcontest',
 	callbackURL: 'https://dcontest.org',
 	accessToken: 'access_token',
-	scope: ['vote', 'comment','offline']
+	scope: ['vote', 'comment']
 });
 var authorizationLink = api.getLoginURL();
 
 if(location.search.indexOf('?') != -1)
+{
 	localStorage.query = location.search.substring(1);
+	localStorage.time = date.getTime();
+}
 
 
 if(localStorage.query != null)
 {
-	decodeQuery();
-	document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@' + username + '">' + username + '</a>';
-	document.getElementById("menu2").innerHTML = '<a href="https://dcontest.org" onclick="logOut()"> Log out </a>';
+	if((date.getTime() - localStorage.time) / 1000 < 120)
+	{
+		decodeQuery();
+		document.getElementById("menu1").innerHTML = '<a href="https://steemit.com/@' + username + '">' + username + '</a>';
+		document.getElementById("menu2").innerHTML = '<a href="https://dcontest.org" onclick="logOut()"> Log out </a>';
 
-	if(username == 'dcontest')
-		document.getElementById("editor").innerHTML = '<a href="https://dcontest.org/editor.html"> Editor </a>';
+		if(username == 'dcontest')
+			document.getElementById("editor").innerHTML = '<a href="https://dcontest.org/editor.html"> Editor </a>';
+	}
+
+	else
+		logOut();
 }
 
 if(localStorage.query == null)
@@ -187,6 +197,7 @@ function logOut()
 	});
 
 	localStorage.removeItem("query");
+	localStorage.removeItem("time");
 }
 
 function vote(author, permlink, index)
