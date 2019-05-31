@@ -44,10 +44,7 @@ if(localStorage.query != null)
 		document.getElementById("menu2").innerHTML = '<a href="https://dcontest.org" onclick="logOut()"> Log out </a>';
 
 		if(username == 'dcontest')
-		{
 			document.getElementById("editor").innerHTML = '<a href="https://dcontest.org/editor.html"> Editor </a>';
-			document.getElementById("seven77").innerHTML = '<a href="https://dcontest.org/seven77.html"> Seven77 </a>';
-		}
 	}
 
 	else
