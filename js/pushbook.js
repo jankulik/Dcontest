@@ -34,6 +34,18 @@ function loadPosts(loadNew, votingIndex, votedIndex)
     {
         var payload = '';
 
+        payload += `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- Pushbook -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-2436322683378243"
+                         data-ad-slot="7766055280"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>`;
+
         for(var i = 0; i < posts.length; i++)
         {
             var title = posts[i].title;
